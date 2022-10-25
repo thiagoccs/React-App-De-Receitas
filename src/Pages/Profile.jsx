@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import context from '../context/context';
+import Footer from '../components/Footer';
 
 export default function Profile() {
   const { setTitle, setIconSearch } = useContext(context);
@@ -19,6 +20,7 @@ export default function Profile() {
   return (
     <div>
       <Header />
+      <Footer />
     </div>
   );
 }

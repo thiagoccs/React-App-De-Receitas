@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import context from '../context/context';
+import Footer from '../components/Footer';
 
 export default function PageDrinks() {
   const { setTitle, setIconSearch } = useContext(context);
@@ -19,6 +20,8 @@ export default function PageDrinks() {
   return (
     <div>
       <Header />
+      <Footer />
     </div>
+
   );
 }
