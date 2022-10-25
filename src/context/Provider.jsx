@@ -17,6 +17,7 @@ function Provider({ children }) {
   });
   const [title, setTitle] = useState('');
   const [iconSearch, setIconSearch] = useState(true);
+  const [showInput, setShowInput] = useState(false);
 
   useEffect(() => {
     const fetchMeal = async () => {
@@ -46,6 +47,7 @@ function Provider({ children }) {
 
   const contextValue = useMemo(
     () => ({
+
       categoriasFood,
       nacionalidadeFood,
       foods,
@@ -59,6 +61,8 @@ function Provider({ children }) {
       setUser,
       setTitle,
       setIconSearch,
+      showInput,
+      setShowInput,
     }),
     [categoriasDrink,
       categoriasFood,
@@ -70,7 +74,9 @@ function Provider({ children }) {
       user,
       title,
       iconSearch,
-      setUser],
+      setUser,
+      showInput,
+      setShowInput],
   );
   return (
     <context.Provider value={ contextValue }>
