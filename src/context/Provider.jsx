@@ -15,6 +15,8 @@ function Provider({ children }) {
     email: '',
     password: '',
   });
+  const [title, setTitle] = useState('');
+  const [iconSearch, setIconSearch] = useState(true);
 
   useEffect(() => {
     const fetchMeal = async () => {
@@ -52,7 +54,11 @@ function Provider({ children }) {
       drink,
       ingredientesDrink,
       user,
+      title,
+      iconSearch,
       setUser,
+      setTitle,
+      setIconSearch,
     }),
     [categoriasDrink,
       categoriasFood,
@@ -62,6 +68,8 @@ function Provider({ children }) {
       ingredientesFood,
       nacionalidadeFood,
       user,
+      title,
+      iconSearch,
       setUser],
   );
   return (
