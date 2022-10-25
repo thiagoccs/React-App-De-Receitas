@@ -11,6 +11,10 @@ function Provider({ children }) {
   const [categoriasDrink, setcategoriasDrink] = useState([]);
   const [drink, setDrinks] = useState([]);
   const [ingredientesDrink, setIngredientesDrink] = useState([]);
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  });
 
   useEffect(() => {
     const fetchMeal = async () => {
@@ -47,6 +51,8 @@ function Provider({ children }) {
       categoriasDrink,
       drink,
       ingredientesDrink,
+      user,
+      setUser,
     }),
     [categoriasDrink,
       categoriasFood,
@@ -54,7 +60,9 @@ function Provider({ children }) {
       foods,
       ingredientesDrink,
       ingredientesFood,
-      nacionalidadeFood],
+      nacionalidadeFood,
+      user,
+      setUser],
   );
   return (
     <context.Provider value={ contextValue }>

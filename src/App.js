@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import { Route } from 'react-router-dom';
-import Header from './components/Header';
 import Login from './Pages/Login';
 import PageMeals from './Pages/PageMeals';
 import PageDrinks from './Pages/PageDrinks';
