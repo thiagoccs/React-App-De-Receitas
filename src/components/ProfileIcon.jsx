@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import searchIcon from '../images/searchIcon.svg';
 import context from '../context/context';
+import SearchBar from './SearchBar';
 
 export default function ProfileIcon() {
   const { showInput, setShowInput } = useContext(context);
@@ -12,7 +13,7 @@ export default function ProfileIcon() {
       <button type="button" onClick={ handleHiddenInput }>
         <img src={ searchIcon } alt="seachIcon" data-testid="search-top-btn" />
       </button>
-      {showInput && <input data-testid="search-input" />}
+      {showInput && <SearchBar />}
     </div>
   );
 }

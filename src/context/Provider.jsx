@@ -11,6 +11,7 @@ function Provider({ children }) {
   const [categoriasDrink, setcategoriasDrink] = useState([]);
   const [drink, setDrinks] = useState([]);
   const [ingredientesDrink, setIngredientesDrink] = useState([]);
+  const [inputSelected, setInputSelected] = useState('Ingredient');
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -58,11 +59,14 @@ function Provider({ children }) {
       user,
       title,
       iconSearch,
+      inputSelected,
+      setFoods,
       setUser,
       setTitle,
       setIconSearch,
       showInput,
       setShowInput,
+      setInputSelected,
     }),
     [categoriasDrink,
       categoriasFood,
@@ -74,9 +78,11 @@ function Provider({ children }) {
       user,
       title,
       iconSearch,
+      inputSelected,
       setUser,
       showInput,
-      setShowInput],
+      setShowInput,
+      setInputSelected],
   );
   return (
     <context.Provider value={ contextValue }>
