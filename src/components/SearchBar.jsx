@@ -1,45 +1,53 @@
 import { useContext, useState } from 'react';
 import context from '../context/context';
-import { fetchAPI } from '../services/fetchApi';
+import { fetchDispatch } from '../services/fetchApi';
 
 function SearchBar() {
-  const { inputSelected, setInputSelected, title, setFoods } = useContext(context);
+  const {
+    title,
+    setFoods,
+    setIngredientesFood,
+    setFirstLetterFoods,
+    setDrinks,
+    setFirstLetterDrinks,
+    setIngredientesDrink,
+  } = useContext(context);
   const [searchInput, setSearchInput] = useState('');
+  const [inputSelected, setInputSelected] = useState('Ingredient');
 
   const handleClick = async () => {
     const INGREDIENT = 'Ingredient';
     const NAME = 'Name';
     const FIRST_LETTER = 'First letter';
-    const URL = title === 'Meals' ? 'themealdb' : 'thecocktaildb';
-    const NAME_SEARCH = await fetchAPI(URL, 'search.php?s', searchInput);
 
     if (title === 'Meals') {
       switch (inputSelected) {
-      case INGREDIENT:
-        console.log('ingrediente');
-        break;
       case NAME:
-        setFoods(NAME_SEARCH.meals);
+        setFoods(await fetchDispatch(searchInput, title).name());
+        break;
+      case INGREDIENT:
+        setIngredientesFood(await fetchDispatch(searchInput, title).ingredient());
         break;
       case FIRST_LETTER:
-        console.log('Primeira Letra');
+        setFirstLetterFoods(await fetchDispatch(searchInput, title).firstLetter());
         break;
       default:
-        return inputSelected;
+        break;
       }
-    } else if (title === 'Drinks') {
+    }
+    if (title === 'Drinks') {
       switch (inputSelected) {
-      case INGREDIENT:
-        console.log('ingrediente Drink');
-        break;
       case NAME:
-        console.log('nome Drink');
+        setDrinks(await fetchDispatch(searchInput, title).name());
+        break;
+      case INGREDIENT:
+        setIngredientesDrink(await fetchDispatch(searchInput, title).ingredient());
         break;
       case FIRST_LETTER:
-        console.log('Primeira Letra Drink');
+        setFirstLetterDrinks(await fetchDispatch(searchInput, title).firstLetter());
         break;
       default:
-        return inputSelected;
+        break;
       }
     }
   };
