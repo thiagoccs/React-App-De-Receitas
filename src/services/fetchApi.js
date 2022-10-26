@@ -4,15 +4,15 @@ export const fetchAPI = async (url, queryType, query) => {
   return item;
 };
 
-export const fetchDispatch = (query, queryType, title) => {
-  const url = title === 'foods' ? 'themealdb' : 'thecocktaildb';
+export const fetchDispatch = (query, title) => {
+  const url = title === 'Meals' ? 'themealdb' : 'thecocktaildb';
   return {
     ingredient: () => fetchAPI(url, 'filter.php?i', query),
     name: () => fetchAPI(url, 'search.php?s', query),
     firstLetter: () => fetchAPI(url, 'search.php?f', query),
     category: () => fetchAPI(url, 'filter.php?c', query),
     details: () => fetchAPI(url, 'lookup.php?i', query),
-  }[queryType]();
+  };
 };
 
 export const fetchCategories = async (type) => {

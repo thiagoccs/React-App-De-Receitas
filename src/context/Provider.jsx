@@ -4,6 +4,8 @@ import { fetchAPI } from '../services/fetchApi';
 import context from './context';
 
 function Provider({ children }) {
+  const [firstLetterFoods, setFirstLetterFoods] = useState([]);
+  const [firstLetterDrinks, setFirstLetterDrinks] = useState([]);
   const [categoriasFood, setcategoriasFood] = useState([]);
   const [nacionalidadeFood, setNacionalidadeFood] = useState([]);
   const [foods, setFoods] = useState([]);
@@ -58,6 +60,14 @@ function Provider({ children }) {
       user,
       title,
       iconSearch,
+      firstLetterFoods,
+      firstLetterDrinks,
+      setIngredientesFood,
+      setIngredientesDrink,
+      setFirstLetterFoods,
+      setFirstLetterDrinks,
+      setFoods,
+      setDrinks,
       setUser,
       setTitle,
       setIconSearch,
@@ -74,9 +84,10 @@ function Provider({ children }) {
       user,
       title,
       iconSearch,
-      setUser,
+      firstLetterFoods,
       showInput,
-      setShowInput],
+      firstLetterDrinks,
+    ],
   );
   return (
     <context.Provider value={ contextValue }>
