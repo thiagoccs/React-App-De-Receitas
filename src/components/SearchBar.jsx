@@ -1,8 +1,12 @@
 import { useContext, useState } from 'react';
 import context from '../context/context';
-import { fetchDispatch } from '../services/fetchApi';
+import { fetchAPI } from '../services/fetchApi';
 
 function SearchBar() {
+  const INGREDIENT = 'Ingredient';
+  const NAME = 'Name';
+  const FIRST_LETTER = 'First letter';
+
   const {
     title,
     setFoods,
@@ -16,40 +20,43 @@ function SearchBar() {
   const [inputSelected, setInputSelected] = useState('Ingredient');
 
   const handleClick = async () => {
-    const INGREDIENT = 'Ingredient';
-    const NAME = 'Name';
-    const FIRST_LETTER = 'First letter';
+    const url = title === 'Meals' ? 'themealdb' : 'thecocktaildb';
 
     if (title === 'Meals') {
-      switch (inputSelected) {
-      case NAME:
-        setFoods(await fetchDispatch(searchInput, title).name());
-        break;
-      case INGREDIENT:
-        setIngredientesFood(await fetchDispatch(searchInput, title).ingredient());
-        break;
-      case FIRST_LETTER:
-        setFirstLetterFoods(await fetchDispatch(searchInput, title).firstLetter());
-        break;
-      default:
-        break;
+      if (inputSelected === NAME) {
+        const { meals: foodName } = await fetchAPI(url, 'search.php?s', searchInput);
+        setFoods(foodName);
+      } else if (inputSelected === INGREDIENT) {
+        const { meals: ingredientFood } = await
+        fetchAPI(url, 'filter.php?i', searchInput);
+        setIngredientesFood(ingredientFood);
+      } else if (inputSelected === FIRST_LETTER) {
+        const { meals: foodFirstLetter } = await
+        fetchAPI(url, 'search.php?f', searchInput);
+        setFirstLetterFoods(foodFirstLetter);
       }
     }
     if (title === 'Drinks') {
-      switch (inputSelected) {
-      case NAME:
-        setDrinks(await fetchDispatch(searchInput, title).name());
-        break;
-      case INGREDIENT:
-        setIngredientesDrink(await fetchDispatch(searchInput, title).ingredient());
-        break;
-      case FIRST_LETTER:
-        setFirstLetterDrinks(await fetchDispatch(searchInput, title).firstLetter());
-        break;
-      default:
-        break;
+      if (inputSelected === NAME) {
+        const { meals: drinkName } = await fetchAPI(url, 'search.php?s', searchInput);
+        setDrinks(drinkName);
+      } else if (inputSelected === INGREDIENT) {
+        const { meals: ingredientDrink } = await
+        fetchAPI(url, 'filter.php?i', searchInput);
+        setIngredientesDrink(ingredientDrink);
+      } else if (inputSelected === FIRST_LETTER) {
+        const { meals: drinkFirstLetter } = await
+        fetchAPI(url, 'search.php?f', searchInput);
+        setFirstLetterDrinks(drinkFirstLetter);
       }
     }
+  };
+
+  const handleChangeInput = ({ target }) => {
+    if (inputSelected === FIRST_LETTER && searchInput.length >= 1) {
+      global.alert('Your search must have only 1 (one) character');
+    }
+    setSearchInput(target.value);
   };
 
   return (
@@ -59,7 +66,7 @@ function SearchBar() {
         <input
           type="text"
           value={ searchInput }
-          onChange={ ({ target }) => setSearchInput(target.value) }
+          onChange={ handleChangeInput }
           name="search-input"
           data-testid="search-input"
         />
