@@ -32,10 +32,9 @@ export default function Profile() {
       return history.push('/done-recipes');
     case 'favorite-btn':
       return history.push('/favorite-recipes');
-    case 'profiel-btn':
-      localStorage.clear();
-      return history.push('/');
     default:
+      localStorage.clear();
+      history.push('/');
       break;
     }
   }
