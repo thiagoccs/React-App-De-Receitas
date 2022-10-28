@@ -9,15 +9,16 @@ function SearchBar() {
 
   const {
     title,
+    inputSelected,
     setFoods,
     setIngredientesFood,
     setFirstLetterFoods,
     setDrinks,
     setFirstLetterDrinks,
     setIngredientesDrink,
+    setInputSelected,
   } = useContext(context);
   const [searchInput, setSearchInput] = useState('');
-  const [inputSelected, setInputSelected] = useState('Ingredient');
 
   const handleClick = async () => {
     const url = title === 'Meals' ? 'themealdb' : 'thecocktaildb';
@@ -38,14 +39,14 @@ function SearchBar() {
     }
     if (title === 'Drinks') {
       if (inputSelected === NAME) {
-        const { meals: drinkName } = await fetchAPI(url, 'search.php?s', searchInput);
+        const { drinks: drinkName } = await fetchAPI(url, 'search.php?s', searchInput);
         setDrinks(drinkName);
       } else if (inputSelected === INGREDIENT) {
-        const { meals: ingredientDrink } = await
+        const { drinks: ingredientDrink } = await
         fetchAPI(url, 'filter.php?i', searchInput);
         setIngredientesDrink(ingredientDrink);
       } else if (inputSelected === FIRST_LETTER) {
-        const { meals: drinkFirstLetter } = await
+        const { drinks: drinkFirstLetter } = await
         fetchAPI(url, 'search.php?f', searchInput);
         setFirstLetterDrinks(drinkFirstLetter);
       }
