@@ -14,8 +14,7 @@ export default function Profile() {
 
   useEffect(() => {
     const getEmail = localStorage.getItem('user');
-    const getEmailJason = JSON.parse(getEmail);
-    const emailStorage = getEmailJason.email;
+    const emailStorage = JSON.parse(getEmail).email;
     setUserProfile(emailStorage);
     console.log(emailStorage);
   }, []);
@@ -37,13 +36,14 @@ export default function Profile() {
       localStorage.clear();
       return history.push('/');
     default:
+      break;
     }
   }
 
   return (
     <div>
       <Header />
-      <p data-testid="profile-email">{userProfile}</p>
+      <h4 data-testid="profile-email">{userProfile}</h4>
       <button
         type="button"
         data-testid="profile-done-btn"
