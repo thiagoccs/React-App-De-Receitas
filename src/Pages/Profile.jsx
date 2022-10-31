@@ -15,7 +15,6 @@ export default function Profile() {
   useEffect(() => {
     const getEmail = JSON.parse(localStorage.getItem('user'));
     setUserProfile(getEmail);
-    console.log(getEmail);
   }, []);
 
   useEffect(() => {
