@@ -17,16 +17,17 @@ export default function PageDrinks() {
       setTitle('Drinks');
       setIconSearch(true);
     }
-    setArrDrinks(drink);
-  }, [drink, pathname, setIconSearch, setTitle]);
+    if (drink === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } else {
+      setArrDrinks(drink);
+    }
+    if (arrDrinks.length === 1) {
+      history.push(`/drinks/${arrDrinks[0].idDrink}`);
+    }
+  }, [arrDrinks, arrDrinks.length, drink, history, pathname, setIconSearch, setTitle]);
 
   const TWELVE = 12;
-  // const arrDrink = [];
-  // drink.forEach((drinks, index) => {
-  //   if (index < twelve) {
-  //     arrDrink.push(drinks);
-  //   }
-  // });
 
   return (
     <div>
@@ -34,16 +35,6 @@ export default function PageDrinks() {
       <Footer />
       <Recipes />
       <section>
-        {/* {arrDrink.map((e, index) => (
-          <div key={ e.idDrink } data-testid={ `${index}-recipe-card` }>
-            <p data-testid={ `${index}-card-name` }>{e.strDrink}</p>
-            <img
-              alt={ e.strDrink }
-              src={ e.strDrinkThumb }
-              data-testid={ `${index}-card-img` }
-            />
-          </div>
-        ))} */}
         {arrDrinks.filter((_, i) => i < TWELVE).map((e, index) => (
           <div key={ e.idDrink } data-testid={ `${index}-recipe-card` }>
             <p data-testid={ `${index}-card-name` }>{e.strDrink}</p>

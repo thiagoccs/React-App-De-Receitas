@@ -20,17 +20,17 @@ export default function PageMeals() {
       setTitle('Meals');
       setIconSearch(true);
     }
-    setArrFoods(foods);
-  }, [foods, pathname, setIconSearch, setTitle]);
+    if (foods === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } else {
+      setArrFoods(foods);
+    }
+    if (arrFoods.length === 1) {
+      history.push(`/meals/${arrFoods[0].idMeal}`);
+    }
+  }, [arrFoods, foods, history, pathname, setIconSearch, setTitle]);
 
   const TWELVE = 12;
-  // const arrFood = [];
-
-  // foods.forEach((food, index) => {
-  //   if (index < Twelve) {
-  //     arrFood.push(food);
-  //   }
-  // });
 
   return (
     <div>
