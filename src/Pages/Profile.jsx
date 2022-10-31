@@ -13,10 +13,9 @@ export default function Profile() {
   const { location: { pathname } } = history;
 
   useEffect(() => {
-    const getEmail = localStorage.getItem('user');
-    const emailStorage = JSON.parse(getEmail).email;
-    setUserProfile(emailStorage);
-    console.log(emailStorage);
+    const getEmail = JSON.parse(localStorage.getItem('user'));
+    setUserProfile(getEmail);
+    console.log(getEmail);
   }, []);
 
   useEffect(() => {
@@ -42,7 +41,7 @@ export default function Profile() {
   return (
     <div>
       <Header />
-      <h4 data-testid="profile-email">{userProfile}</h4>
+      {userProfile && <h4 data-testid="profile-email">{userProfile.email}</h4>}
       <button
         type="button"
         data-testid="profile-done-btn"
