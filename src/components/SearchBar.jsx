@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import context from '../context/context';
-import { fetchAPI } from '../services/fetchApi';
+import fetchAPI from '../services/fetchApi';
 
 function SearchBar() {
   const INGREDIENT = 'Ingredient';

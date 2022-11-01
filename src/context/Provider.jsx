@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect, useMemo, useState } from 'react';
-import { fetchAPI } from '../services/fetchApi';
+import fetchAPI from '../services/fetchApi';
 import context from './context';
 
 function Provider({ children }) {
