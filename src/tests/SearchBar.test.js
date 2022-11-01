@@ -1,15 +1,15 @@
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import fetch from '../../cypress/mocks/fetch';
-import { meals } from '../../cypress/mocks/meals';
-import App from '../App';
-import SearchBar from '../components/SearchBar';
+// import { meals } from '../../cypress/mocks/meals';
+// import App from '../App';
+// import SearchBar from '../components/SearchBar';
 import PageMeals from '../Pages/PageMeals';
 import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
 
 describe('Testa o Componente SearchBar', () => {
-  const email = 'teste@teste.com';
-  const password = '1234567';
+  // const email = 'teste@teste.com';
+  // const password = '1234567';
   const SEARCH_TOP_BTN = 'search-top-btn';
   it('Testa se ao clicar no icone da lupa, os inputs aparecem', async () => {
     await act(async () => {
