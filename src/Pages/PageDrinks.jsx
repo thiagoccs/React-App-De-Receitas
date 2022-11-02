@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Recipes from '../components/Recipes';
@@ -36,13 +36,19 @@ export default function PageDrinks() {
       <Recipes />
       <section>
         {arrDrinks.filter((_, i) => i < TWELVE).map((e, index) => (
-          <div key={ e.idDrink } data-testid={ `${index}-recipe-card` }>
+          <div
+            key={ e.idDrink }
+            data-testid={ `${index}-recipe-card` }
+
+          >
             <p data-testid={ `${index}-card-name` }>{e.strDrink}</p>
-            <img
-              alt={ e.strDrink }
-              src={ e.strDrinkThumb }
-              data-testid={ `${index}-card-img` }
-            />
+            <Link to={ `drinks/${e.idDrink} ` }>
+              <img
+                alt={ e.strDrink }
+                src={ e.strDrinkThumb }
+                data-testid={ `${index}-card-img` }
+              />
+            </Link>
           </div>
         ))}
       </section>
