@@ -36,7 +36,7 @@ describe('Teste do componente Recipes Drinks', () => {
     // debug();
     expect(btnCocoa).toBeInTheDocument();
     userEvent.click(btnCocoa);
-    const coffeImg = await screen.findByRole('img', {  name: /castillian hot chocolate/i})
+    const coffeImg = await screen.findByRole('img', { name: /castillian hot chocolate/i });
     expect(coffeImg).toBeInTheDocument();
     userEvent.click(btnCocoa);
     const a0 = await screen.findByTestId('0-card-img');
