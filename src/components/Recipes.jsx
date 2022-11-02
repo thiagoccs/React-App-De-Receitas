@@ -4,10 +4,10 @@ import context from '../context/context';
 import { fetchAPI } from '../services/fetchApi';
 
 export default function Recipes() {
-  const { categoriasDrink, categoriasFood, setDisableImg } = useContext(context);
+  const { categoriasDrink, categoriasFood, setDisableImg,
+    disableImg } = useContext(context);
   const [getFoods, setGetFoods] = useState([]);
   const [getDrinks, setGetDrinks] = useState([]);
-  const [setClearButton] = useState(false);
 
   const history = useHistory();
   const {
@@ -18,30 +18,30 @@ export default function Recipes() {
   const twelve = 12;
 
   const handleClickMeals = async ({ target }) => {
-    const btnMeals = await fetchAPI('themealdb', 'filter.php?c', target.value);
-    setGetFoods(btnMeals);
-    setClearButton(true);
-    if (getFoods !== []) {
+    if (disableImg) {
+      const btnMeals = await fetchAPI('themealdb', 'filter.php?c', target.value);
+      setGetFoods(btnMeals);
       setDisableImg(false);
+    } else {
+      setGetFoods([]);
+      setDisableImg(true);
     }
   };
+
   const handleClickDrinks = async ({ target }) => {
-    const btnDrinks = await fetchAPI(
-      'thecocktaildb',
-      'filter.php?c',
-      target.value,
-    );
-    setGetDrinks(btnDrinks);
-    setClearButton(true);
-    if (getFoods !== []) {
+    if (disableImg) {
+      const btnDrinks = await fetchAPI('thecocktaildb', 'filter.php?c', target.value);
+      setGetDrinks(btnDrinks);
       setDisableImg(false);
+    } else {
+      setGetDrinks([]);
+      setDisableImg(true);
     }
   };
 
   const handleClear = () => {
     setGetFoods([]);
     setGetDrinks([]);
-    setClearButton(false);
     setDisableImg(true);
   };
 
