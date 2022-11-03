@@ -1,111 +1,225 @@
-import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import context from '../context/context';
+import React, { useEffect, useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import fetchAPI from '../services/fetchApi';
 
-export default function Recipes() {
-  const { categoriasDrink, categoriasFood } = useContext(context);
-  const [getFoods, setGetFoods] = useState([]);
-  const [getDrinks, setGetDrinks] = useState([]);
-  const [clearButton, setClearButton] = useState(false);
+function RecipeDetails() {
+  const [mealsDetailsState, setMealsDetailsState] = useState([]);
+  const [drinksDetailsState, setDrinksDetailsState] = useState([]);
 
-  const history = useHistory();
-  const {
-    location: { pathname },
-  } = history;
+  const { id } = useParams();
+  const { location: { pathname } } = useHistory();
 
-  const five = 5;
-  const twelve = 12;
+  useEffect(() => {
+    const fetchMealsDetails = async () => {
+      const mealsDetails = await fetchAPI(
+        'themealdb',
+        'lookup.php?i',
+        id,
+      );
 
-  const handleClickMeals = async ({ target }) => {
-    history.push('/Details');
-    const btnMeals = await fetchAPI('themealdb', 'filter.php?c', target.value);
-    setGetFoods(btnMeals);
-    setClearButton(true);
-  };
-  const handleClickDrinks = async ({ target }) => {
-    history.push('/Details');
-    const btnDrinks = await fetchAPI(
-      'thecocktaildb',
-      'filter.php?c',
-      target.value,
-    );
-    setGetDrinks(btnDrinks);
-    setClearButton(true);
-  };
+      setMealsDetailsState(mealsDetails);
+    };
+    const fetchDrinksDetails = async () => {
+      const drinksDetails = await fetchAPI(
+        'thecocktaildb',
+        'lookup.php?i',
+        id,
+      );
 
-  const handleClear = () => {
-    setGetFoods([]);
-    setGetDrinks([]);
-    setClearButton(false);
-  };
-  console.log(getDrinks);
+      setDrinksDetailsState(drinksDetails);
+    };
+
+    if (pathname.includes('meals')) {
+      fetchMealsDetails();
+    }
+    if (pathname.includes('drinks')) {
+      fetchDrinksDetails();
+    }
+  }, [id, pathname]);
+
+  console.log(drinksDetailsState);
 
   return (
     <div>
-      <section>
-        {pathname === '/meals'
-          && categoriasFood
-            .filter((_, i) => i < five)
-            .map((food, index) => (
-              <button
-                value={ food.strCategory }
-                type="button"
-                key={ index }
-                data-testid={ `${food.strCategory}-category-filter` }
-                onClick={ handleClickMeals }
-              >
-                {food.strCategory}
-              </button>
-            ))}
-      </section>
-      <section>
-        {pathname === '/drinks'
-          && categoriasDrink
-            .filter((_, i) => i < five)
-            .map((drink, index) => (
-              <button
-                value={ drink.strCategory }
-                type="button"
-                key={ index }
-                data-testid={ `${drink.strCategory}-category-filter` }
-                onClick={ handleClickDrinks }
-              >
-                {drink.strCategory}
-              </button>
-            ))}
-      </section>
-      {clearButton
+      {
+        (Object.values(mealsDetailsState)[0]
+        || Object.values(drinksDetailsState)[0]) === null
+        && global.alert('Erro')
+      }
+      {Object.keys(mealsDetailsState)[0] === 'meals'
+        && (
+          <>
+            {
+              mealsDetailsState.meals.map((element, index) => (
+                <div key={ index }>
+                  <img
+                    data-testid="recipe-photo"
+                    src={ element.strMealThumb }
+                    alt={ element.strMeal }
+                  />
+                  <h1 data-testid="recipe-title">{ element.strMeal }</h1>
+                  <h2 data-testid="recipe-category">{ element.strCategory }</h2>
+                  <p data-testid={ `${index}-ingredient-name-and-measure` }>
+                    { element.strIngredient1 }
+                  </p>
+                  <p data-testid={ `${index}-ingredient-name-and-measure` }>
+                    { element.strMeasure1 }
+                  </p>
+                  <p data-testid={ `${index + 1}-ingredient-name-and-measure` }>
+                    { element.strIngredient2 }
+                  </p>
+                  <p data-testid={ `${index + 1}-ingredient-name-and-measure` }>
+                    { element.strMeasure2 }
+                  </p>
+                  <p data-testid={ `${index + 2}-ingredient-name-and-measure` }>
+                    { element.strIngredient3 }
+                  </p>
+                  <p data-testid={ `${index + 2}-ingredient-name-and-measure` }>
+                    { element.strMeasure3 }
+                  </p>
+                  <p data-testid={ `${index + Number('3')}-ingredient-name-and-measure` }>
+                    { element.strIngredient4 }
+                  </p>
+                  <p data-testid={ `${index + Number('3')}-ingredient-name-and-measure` }>
+                    { element.strMeasure4 }
+                  </p>
+                  <p data-testid={ `${index + Number('4')}-ingredient-name-and-measure` }>
+                    { element.strIngredient5 }
+                  </p>
+                  <p data-testid={ `${index + Number('4')}-ingredient-name-and-measure` }>
+                    { element.strMeasure5 }
+                  </p>
+                  <p data-testid={ `${index + Number('5')}-ingredient-name-and-measure` }>
+                    { element.strIngredient6 }
+                  </p>
+                  <p data-testid={ `${index + Number('5')}-ingredient-name-and-measure` }>
+                    { element.strMeasure6 }
+                  </p>
+                  <p data-testid={ `${index + Number('6')}-ingredient-name-and-measure` }>
+                    { element.strIngredient7 }
+                  </p>
+                  <p data-testid={ `${index + Number('6')}-ingredient-name-and-measure` }>
+                    { element.strMeasure7 }
+                  </p>
+                  <p data-testid={ `${index + Number('7')}-ingredient-name-and-measure` }>
+                    { element.strIngredient8 }
+                  </p>
+                  <p data-testid={ `${index + Number('7')}-ingredient-name-and-measure` }>
+                    { element.strMeasure8 }
+                  </p>
+                  <p data-testid={ `${index + Number('8')}-ingredient-name-and-measure` }>
+                    { element.strIngredient9 }
+                  </p>
+                  <p data-testid={ `${index + Number('8')}-ingredient-name-and-measure` }>
+                    { element.strMeasure9 }
+                  </p>
+                  <p data-testid={ `${index + Number('9')}-ingredient-name-and-measure` }>
+                    { element.strIngredient10 }
+                  </p>
+                  <p data-testid={ `${index + Number('9')}-ingredient-name-and-measure` }>
+                    { element.strMeasure10 }
+                  </p>
+                  <p data-testid="instructions">{ element.strInstructions }</p>
+                  <iframe
+                    data-testid="video"
+                    src={ element.strYoutube }
+                    title={ element.strMeal }
+                  />
+                </div>
+              ))
+            }
+          </>
+        )}
+      {Object.keys(drinksDetailsState)[0] === 'drinks'
       && (
-        <button
-          type="button"
-          data-testid="All-category-filter"
-          onClick={ handleClear }
-        >
-          All
-        </button>) }
-      <section>
-        {getFoods.meals
-          && getFoods.meals
-            .filter((e, i) => i < twelve)
-            .map((e) => (
-              <div key={ e.idMeal }>
-                <p>{e.strMeal}</p>
-                <img alt={ e.strMeal } src={ e.strMealThumb } />
+        <>
+          {
+            drinksDetailsState.drinks.map((element, index) => (
+              <div key={ index }>
+                <img
+                  data-testid="recipe-photo"
+                  src={ element.strDrinkThumb }
+                  alt={ element.strDrink }
+                />
+                <h1 data-testid="recipe-title">{ element.strDrink }</h1>
+                <h2 data-testid="recipe-category">{ element.strCategory }</h2>
+                {
+                  element.strAlcoholic
+                  && <p data-testid="recipe-category">{element.strAlcoholic}</p>
+                }
+                <p data-testid={ `${index}-ingredient-name-and-measure` }>
+                  { element.strIngredient1 }
+                </p>
+                <p data-testid={ `${index}-ingredient-name-and-measure` }>
+                  { element.strMeasure1 }
+                </p>
+                <p data-testid={ `${index + 1}-ingredient-name-and-measure` }>
+                  { element.strIngredient2 }
+                </p>
+                <p data-testid={ `${index + 1}-ingredient-name-and-measure` }>
+                  { element.strMeasure2 }
+                </p>
+                <p data-testid={ `${index + 2}-ingredient-name-and-measure` }>
+                  { element.strIngredient3 }
+                </p>
+                <p data-testid={ `${index + 2}-ingredient-name-and-measure` }>
+                  { element.strMeasure3 }
+                </p>
+                <p data-testid={ `${index + Number('3')}-ingredient-name-and-measure` }>
+                  { element.strIngredient4 }
+                </p>
+                <p data-testid={ `${index + Number('3')}-ingredient-name-and-measure` }>
+                  { element.strMeasure4 }
+                </p>
+                <p data-testid={ `${index + Number('4')}-ingredient-name-and-measure` }>
+                  { element.strIngredient5 }
+                </p>
+                <p data-testid={ `${index + Number('4')}-ingredient-name-and-measure` }>
+                  { element.strMeasure5 }
+                </p>
+                <p data-testid={ `${index + Number('5')}-ingredient-name-and-measure` }>
+                  { element.strIngredient6 }
+                </p>
+                <p data-testid={ `${index + Number('5')}-ingredient-name-and-measure` }>
+                  { element.strMeasure6 }
+                </p>
+                <p data-testid={ `${index + Number('6')}-ingredient-name-and-measure` }>
+                  { element.strIngredient7 }
+                </p>
+                <p data-testid={ `${index + Number('6')}-ingredient-name-and-measure` }>
+                  { element.strMeasure7 }
+                </p>
+                <p data-testid={ `${index + Number('7')}-ingredient-name-and-measure` }>
+                  { element.strIngredient8 }
+                </p>
+                <p data-testid={ `${index + Number('7')}-ingredient-name-and-measure` }>
+                  { element.strMeasure8 }
+                </p>
+                <p data-testid={ `${index + Number('8')}-ingredient-name-and-measure` }>
+                  { element.strIngredient9 }
+                </p>
+                <p data-testid={ `${index + Number('8')}-ingredient-name-and-measure` }>
+                  { element.strMeasure9 }
+                </p>
+                <p data-testid={ `${index + Number('9')}-ingredient-name-and-measure` }>
+                  { element.strIngredient10 }
+                </p>
+                <p data-testid={ `${index + Number('9')}-ingredient-name-and-measure` }>
+                  { element.strMeasure10 }
+                </p>
+                <p data-testid="instructions">{ element.strInstructions }</p>
+                <iframe
+                  data-testid="video"
+                  src={ element.strYoutube }
+                  title={ element.strMeal }
+                />
               </div>
-            ))}
-      </section>
-      <section>
-        {getDrinks.drinks
-          && getDrinks.drinks
-            .filter((e, i) => i < twelve)
-            .map((e) => (
-              <div key={ e.idDrink }>
-                <p>{e.strMeal}</p>
-                <img alt={ e.strDrink } src={ e.strDrinkThumb } />
-              </div>
-            ))}
-      </section>
+            ))
+          }
+        </>
+      )}
     </div>
   );
 }
+
+export default RecipeDetails;

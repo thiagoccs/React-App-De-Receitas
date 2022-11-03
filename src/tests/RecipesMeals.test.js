@@ -22,13 +22,26 @@ describe('Teste do componente Recipes', () => {
       userEvent.click(buttonInicial);
     });
     expect(history.location.pathname).toBe('/meals');
-    const btnGoat = await screen.findByTestId('Goat-category-filter', {}, {
-      timeout: 8000,
-    });
+    const btnGoat = await screen.findByTestId(
+      'Goat-category-filter',
+      {},
+      {
+        timeout: 8000,
+      },
+    );
     await waitFor(() => {
       expect(btnGoat).toBeTruthy();
     });
     const btnAll = screen.getByRole('button', { name: /all/i });
     userEvent.click(btnAll);
+    const beefBtn = screen.getByRole('button', { name: /beef/i });
+    userEvent.click(beefBtn);
+    const imgBeef = await screen.findByRole('img', {
+      name: /beef and mustard pie/i,
+    });
+    expect(imgBeef).toBeInTheDocument();
+    userEvent.click(beefBtn);
+    const imgCorba = await screen.findByRole('img', { name: /corba/i });
+    expect(imgCorba).toBeInTheDocument();
   });
 });

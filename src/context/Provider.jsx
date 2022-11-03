@@ -100,6 +100,7 @@ function Provider({ children }) {
       disableImg,
       setDisableImg,
       clearButton,
+      setClearButton,
     ],
   );
   return (
