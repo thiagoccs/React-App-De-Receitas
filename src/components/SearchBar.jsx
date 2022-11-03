@@ -22,7 +22,8 @@ function SearchBar() {
   const handleClick = async () => {
     const url = path === 'meals' ? 'themealdb' : 'thecocktaildb';
 
-    if (path === 'meals') {
+    switch (path) {
+    case 'meals':
       if (inputSelected === NAME) {
         const { meals: foodName } = await fetchAPI(url, 'search.php?s', searchInput);
         setFoods(foodName);
@@ -35,7 +36,9 @@ function SearchBar() {
         fetchAPI(url, 'search.php?f', searchInput);
         setFoods(foodFirstLetter);
       }
-    } else if (path === 'drinks') {
+      break;
+
+    default:
       if (inputSelected === NAME) {
         const { drinks: drinkName } = await fetchAPI(url, 'search.php?s', searchInput);
         setDrinks(drinkName);
@@ -48,6 +51,7 @@ function SearchBar() {
         fetchAPI(url, 'search.php?f', searchInput);
         setDrinks(drinkFirstLetter);
       }
+      break;
     }
   };
 
