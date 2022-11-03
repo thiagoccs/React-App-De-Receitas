@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
 
@@ -8,47 +9,44 @@ function SearchBar() {
   const FIRST_LETTER = 'First letter';
 
   const {
-    title,
     inputSelected,
     setFoods,
-    setIngredientesFood,
-    setFirstLetterFoods,
     setDrinks,
-    setFirstLetterDrinks,
-    setIngredientesDrink,
     setInputSelected,
   } = useContext(context);
   const [searchInput, setSearchInput] = useState('');
+  const location = useLocation();
+
+  const path = location.pathname.replace(/\//g, '');
 
   const handleClick = async () => {
-    const url = title === 'Meals' ? 'themealdb' : 'thecocktaildb';
+    const url = path === 'meals' ? 'themealdb' : 'thecocktaildb';
 
-    if (title === 'Meals') {
+    if (path === 'meals') {
       if (inputSelected === NAME) {
         const { meals: foodName } = await fetchAPI(url, 'search.php?s', searchInput);
         setFoods(foodName);
       } else if (inputSelected === INGREDIENT) {
         const { meals: ingredientFood } = await
         fetchAPI(url, 'filter.php?i', searchInput);
-        setIngredientesFood(ingredientFood);
+        setFoods(ingredientFood);
       } else if (inputSelected === FIRST_LETTER) {
         const { meals: foodFirstLetter } = await
         fetchAPI(url, 'search.php?f', searchInput);
-        setFirstLetterFoods(foodFirstLetter);
+        setFoods(foodFirstLetter);
       }
-    }
-    if (title === 'Drinks') {
+    } else if (path === 'drinks') {
       if (inputSelected === NAME) {
         const { drinks: drinkName } = await fetchAPI(url, 'search.php?s', searchInput);
         setDrinks(drinkName);
       } else if (inputSelected === INGREDIENT) {
         const { drinks: ingredientDrink } = await
         fetchAPI(url, 'filter.php?i', searchInput);
-        setIngredientesDrink(ingredientDrink);
+        setDrinks(ingredientDrink);
       } else if (inputSelected === FIRST_LETTER) {
         const { drinks: drinkFirstLetter } = await
         fetchAPI(url, 'search.php?f', searchInput);
-        setFirstLetterDrinks(drinkFirstLetter);
+        setDrinks(drinkFirstLetter);
       }
     }
   };

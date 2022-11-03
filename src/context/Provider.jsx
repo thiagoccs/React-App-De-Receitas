@@ -22,6 +22,7 @@ function Provider({ children }) {
   const [showInput, setShowInput] = useState(false);
   const [inputSelected, setInputSelected] = useState('Ingredient');
   const [disableImg, setDisableImg] = useState(true);
+  const [clearButton, setClearButton] = useState(false);
 
   useEffect(() => {
     const fetchMeal = async () => {
@@ -65,6 +66,7 @@ function Provider({ children }) {
       inputSelected,
       firstLetterFoods,
       firstLetterDrinks,
+      clearButton,
       setIngredientesFood,
       setIngredientesDrink,
       setFirstLetterFoods,
@@ -79,6 +81,7 @@ function Provider({ children }) {
       setInputSelected,
       disableImg,
       setDisableImg,
+      setClearButton,
     }),
     [categoriasDrink,
       categoriasFood,
@@ -96,6 +99,7 @@ function Provider({ children }) {
       inputSelected,
       disableImg,
       setDisableImg,
+      clearButton,
     ],
   );
   return (
