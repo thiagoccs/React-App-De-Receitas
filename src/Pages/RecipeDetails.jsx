@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { fetchAPI } from '../services/fetchApi';
+import fetchAPI from '../services/fetchApi';
 
 function RecipeDetails() {
   const [mealsDetailsState, setMealsDetailsState] = useState([]);

@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import context from '../context/context';
-import { fetchAPI } from '../services/fetchApi';
+import fetchAPI from '../services/fetchApi';
 
 function SearchBar() {
   const INGREDIENT = 'Ingredient';
@@ -8,48 +9,48 @@ function SearchBar() {
   const FIRST_LETTER = 'First letter';
 
   const {
-    title,
     inputSelected,
     setFoods,
-    setIngredientesFood,
-    setFirstLetterFoods,
     setDrinks,
-    setFirstLetterDrinks,
-    setIngredientesDrink,
     setInputSelected,
   } = useContext(context);
   const [searchInput, setSearchInput] = useState('');
+  const location = useLocation();
+
+  const path = location.pathname.replace(/\//g, '');
 
   const handleClick = async () => {
-    const url = title === 'Meals' ? 'themealdb' : 'thecocktaildb';
+    const url = path === 'meals' ? 'themealdb' : 'thecocktaildb';
 
-    if (title === 'Meals') {
+    switch (path) {
+    case 'meals':
       if (inputSelected === NAME) {
         const { meals: foodName } = await fetchAPI(url, 'search.php?s', searchInput);
         setFoods(foodName);
       } else if (inputSelected === INGREDIENT) {
         const { meals: ingredientFood } = await
         fetchAPI(url, 'filter.php?i', searchInput);
-        setIngredientesFood(ingredientFood);
-      } else if (inputSelected === FIRST_LETTER) {
+        setFoods(ingredientFood);
+      } else {
         const { meals: foodFirstLetter } = await
         fetchAPI(url, 'search.php?f', searchInput);
-        setFirstLetterFoods(foodFirstLetter);
+        setFoods(foodFirstLetter);
       }
-    }
-    if (title === 'Drinks') {
+      break;
+    default:
       if (inputSelected === NAME) {
         const { drinks: drinkName } = await fetchAPI(url, 'search.php?s', searchInput);
         setDrinks(drinkName);
       } else if (inputSelected === INGREDIENT) {
         const { drinks: ingredientDrink } = await
         fetchAPI(url, 'filter.php?i', searchInput);
-        setIngredientesDrink(ingredientDrink);
-      } else if (inputSelected === FIRST_LETTER) {
+        setDrinks(ingredientDrink);
+      } else {
         const { drinks: drinkFirstLetter } = await
         fetchAPI(url, 'search.php?f', searchInput);
-        setFirstLetterDrinks(drinkFirstLetter);
+        setDrinks(drinkFirstLetter);
       }
+      break;
     }
   };
 

@@ -1,16 +1,16 @@
-import { act, screen, waitFor } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import fetch from '../../cypress/mocks/fetch';
-// import { meals } from '../../cypress/mocks/meals';
-// import App from '../App';
-// import SearchBar from '../components/SearchBar';
 import PageMeals from '../Pages/PageMeals';
 import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
 
+const EXEC_SEARCH = 'exec-search-btn';
+
 describe('Testa o Componente SearchBar', () => {
-  // const email = 'teste@teste.com';
-  // const password = '1234567';
   const SEARCH_TOP_BTN = 'search-top-btn';
+  const PAGE_TITLE = 'page-title';
+  const INGREDIENT_SEARCH_RADIO = 'ingredient-search-radio';
+  const SEARCH_INPUT = 'search-input';
+
   it('Testa se ao clicar no icone da lupa, os inputs aparecem', async () => {
     await act(async () => {
       renderWithRouterAndContext(<PageMeals />);
@@ -20,50 +20,89 @@ describe('Testa o Componente SearchBar', () => {
     const radioInputs = screen.getByText(/ingredient name first letter/i);
     expect(radioInputs).toBeInTheDocument();
   });
-  it('Testa se ao buscar o ingrediente chicken, o resultado esperado é renderizado em tela', async () => {
+  it('testa o funcionamento dos inputs no searchBar na page meals', async () => {
     await act(async () => {
       renderWithRouterAndContext(<PageMeals />);
     });
-    const searchIcon = screen.getByTestId(SEARCH_TOP_BTN);
 
-    userEvent.click(searchIcon);
+    userEvent.click(screen.getByTestId(SEARCH_TOP_BTN));
 
-    const inputSearch = screen.getByTestId('search-input');
-    const btnSearch = screen.getByTestId('exec-search-btn');
-    userEvent.type(inputSearch, 'chicken');
-    userEvent.click(btnSearch);
-  });
-  it('testa o funcionamento dos inputs no searchBar', async () => {
-    const { debug } = renderWithRouterAndContext(<PageMeals />);
+    const ingredient = screen.getByTestId(INGREDIENT_SEARCH_RADIO);
+    const name = screen.getByTestId('name-search-radio');
+    const firstLetter = screen.getByTestId('first-letter-search-radio');
+    const searchInput = screen.getByTestId(SEARCH_INPUT);
+    const execSearchBtn = screen.getByTestId(EXEC_SEARCH);
 
-    waitFor(() => {
-      userEvent.click(screen.getByTestId('search-top-btn'));
-    });
-
-    const ingredient = await screen.findByTestId('ingredient-search-radio', {}, { timeout: 4000 });
-    const name = await screen.findByTestId('name-search-radio');
-    const firstLetter = await screen.findByTestId('first-letter-search-radio');
-    const searchInput = screen.getByTestId('search-input');
-
-    expect(screen.getByTestId('page-title')).toBeInTheDocument();
+    expect(screen.getByTestId(PAGE_TITLE)).toBeInTheDocument();
 
     userEvent.click(ingredient);
-    userEvent.type(searchInput, 'Chicken');
-    userEvent.click(screen.getByTestId('exec-search-btn'));
-
-    global.fetch = jest.fn(fetch('https://www.themealdb.com/api/json/v1/1/filter.php?i=Chicken'));
-
-    // expect(global.fetch).toBeCalledTimes(1);
-
     expect(screen.getAllByText(/ingredient/i).length).toEqual(2);
+    userEvent.type(searchInput, 'Chicken');
+    userEvent.click(execSearchBtn);
 
     userEvent.click(name);
+    expect(screen.getAllByText(/name/i).length).toEqual(2);
+    userEvent.type(searchInput, 'Chicken');
+    userEvent.click(execSearchBtn);
+
     userEvent.click(firstLetter);
+    expect(screen.getAllByText(/first letter/i).length).toEqual(2);
+    userEvent.type(searchInput, 'a');
+    userEvent.click(execSearchBtn);
 
     expect(ingredient && name && firstLetter).toBeInTheDocument();
-
-    debug();
   });
-  it('', () => { });
-  it('', () => { });
+  //   it('testa o funcionamento dos inputs no searchBar na page drinks', async () => {
+  //     await act(async () => {
+  //       renderWithRouterAndContext(<PageDrinks />);
+  //     });
+
+  //     userEvent.click(screen.getByTestId(SEARCH_TOP_BTN));
+
+  //     const ingredient = screen.getByTestId(INGREDIENT_SEARCH_RADIO);
+  //     const name = screen.getByTestId('name-search-radio');
+  //     const firstLetter = screen.getByTestId('first-letter-search-radio');
+  //     const searchInput = screen.getByTestId('search-input');
+  //     const execSearchBtn = screen.getByTestId(EXEC_SEARCH);
+
+  //     expect(screen.getByTestId(PAGE_TITLE)).toBeInTheDocument();
+
+  //     userEvent.click(ingredient);
+  //     expect(screen.getAllByText(/ingredient/i).length).toEqual(2);
+  //     userEvent.type(searchInput, 'kiwi');
+  //     userEvent.click(execSearchBtn);
+
+  //     userEvent.click(name);
+  //     expect(screen.getAllByText(/name/i).length).toEqual(2);
+  //     userEvent.type(searchInput, 'kiwi');
+  //     userEvent.click(execSearchBtn);
+
+  //     userEvent.click(firstLetter);
+  //     expect(screen.getAllByText(/first letter/i).length).toEqual(2);
+  //     userEvent.type(searchInput, 'a');
+  //     userEvent.click(execSearchBtn);
+
+  //     expect(ingredient && name && firstLetter).toBeInTheDocument();
+  //   });
+  //   it('', async () => {
+  //     await act(async () => {
+  //       renderWithRouterAndContext(<PageMeals />);
+  //     });
+
+  //     userEvent.click(screen.getByTestId(SEARCH_TOP_BTN));
+  //     const ingredient = screen.getByTestId(INGREDIENT_SEARCH_RADIO);
+  //     const searchInput = screen.getByTestId(SEARCH_INPUT);
+  //     const execSearchBtn = screen.getByTestId(EXEC_SEARCH);
+
+  //     userEvent.click(ingredient);
+
+  //     expect(screen.getAllByText(/ingredient/i).length).toEqual(2);
+
+//     userEvent.type(searchInput, 'Chicken');
+//     userEvent.click(execSearchBtn);
+//   });
+//   it('', async () => {
+//     const { debug } = renderWithRouterAndContext(<SearchBar />);
+//     debug();
+//   });
 });

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import context from '../context/context';
-import { fetchAPI } from '../services/fetchApi';
+import fetchAPI from '../services/fetchApi';
 
 export default function Recipes() {
   const { categoriasDrink, categoriasFood, setDisableImg,
