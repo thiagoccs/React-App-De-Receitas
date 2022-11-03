@@ -11,8 +11,6 @@ describe('Testa o Componente SearchBar', () => {
   const INGREDIENT_SEARCH_RADIO = 'ingredient-search-radio';
   const SEARCH_INPUT = 'search-input';
 
-  afterEach(() => jest.clearAllMocks());
-
   it('Testa se ao clicar no icone da lupa, os inputs aparecem', async () => {
     await act(async () => {
       renderWithRouterAndContext(<PageMeals />);

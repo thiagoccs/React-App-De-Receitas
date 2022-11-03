@@ -31,13 +31,12 @@ function SearchBar() {
         const { meals: ingredientFood } = await
         fetchAPI(url, 'filter.php?i', searchInput);
         setFoods(ingredientFood);
-      } else if (inputSelected === FIRST_LETTER) {
+      } else {
         const { meals: foodFirstLetter } = await
         fetchAPI(url, 'search.php?f', searchInput);
         setFoods(foodFirstLetter);
       }
       break;
-
     default:
       if (inputSelected === NAME) {
         const { drinks: drinkName } = await fetchAPI(url, 'search.php?s', searchInput);
@@ -46,7 +45,7 @@ function SearchBar() {
         const { drinks: ingredientDrink } = await
         fetchAPI(url, 'filter.php?i', searchInput);
         setDrinks(ingredientDrink);
-      } else if (inputSelected === FIRST_LETTER) {
+      } else {
         const { drinks: drinkFirstLetter } = await
         fetchAPI(url, 'search.php?f', searchInput);
         setDrinks(drinkFirstLetter);
