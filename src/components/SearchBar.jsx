@@ -21,9 +21,12 @@ function SearchBar() {
 
   const handleClick = async () => {
     const url = path === 'meals' ? 'themealdb' : 'thecocktaildb';
+
     switch (path) {
     case 'meals':
-      if (inputSelected === NAME) {
+      if (inputSelected === FIRST_LETTER && searchInput.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      } else if (inputSelected === NAME) {
         const { meals: foodName } = await fetchAPI(url, 'search.php?s', searchInput);
         setFoods(foodName);
       } else if (inputSelected === INGREDIENT) {
@@ -37,7 +40,9 @@ function SearchBar() {
       }
       break;
     default:
-      if (inputSelected === NAME) {
+      if (inputSelected === FIRST_LETTER && searchInput.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      } else if (inputSelected === NAME) {
         const { drinks: drinkName } = await fetchAPI(url, 'search.php?s', searchInput);
         setDrinks(drinkName);
       } else if (inputSelected === INGREDIENT) {
@@ -54,9 +59,6 @@ function SearchBar() {
   };
 
   const handleChangeInput = ({ target }) => {
-    if (inputSelected === FIRST_LETTER && searchInput.length >= 1) {
-      global.alert('Your search must have only 1 (one) character');
-    }
     setSearchInput(target.value);
   };
 
