@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import fetchAPI from '../services/fetchApi';
+import RecommendedMeals from '../components/RecommendedMeals';
+import RecommendedDrinks from '../components/RecomendedDrinks';
 
 function RecipeDetails() {
   const [mealsDetailsState, setMealsDetailsState] = useState([]);
@@ -218,6 +220,8 @@ function RecipeDetails() {
           }
         </>
       )}
+      { pathname.includes('meals') && <RecommendedDrinks /> }
+      { pathname.includes('drinks') && <RecommendedMeals /> }
     </div>
   );
 }
