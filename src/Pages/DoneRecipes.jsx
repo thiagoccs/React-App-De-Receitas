@@ -5,31 +5,6 @@ import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import context from '../context/context';
 
-const paraTestes = [ // << Apagar e substitutir por array vindo do LocalStorage
-  {
-    id: '53060',
-    name: 'Burek',
-    type: 'meal',
-    nationality: 'Croatian',
-    category: 'Side',
-    tags: ['teste01', 'teste02'],
-    doneDate: '01/11/2022',
-    image: 'https://www.themealdb.com/images/media/meals/tkxquw1628771028.jpg',
-    alcoholicOrNot: '',
-  },
-  {
-    id: '13501',
-    name: 'ABC',
-    type: 'drink',
-    nationality: '',
-    category: 'Shot',
-    tags: [],
-    doneDate: '01/11/2022',
-    image: 'https://www.thecocktaildb.com/images/media/drink/tqpvqp1472668328.jpg',
-    alcoholicOrNot: 'Alcoholic',
-  },
-];
-
 export default function DoneRecipes() {
   const { setTitle, setIconSearch } = useContext(context);
 
@@ -48,10 +23,8 @@ export default function DoneRecipes() {
   }, [pathname, setIconSearch, setTitle]);
 
   useEffect(() => {
-    // const getLocalStorage = JSON.parse(localStorage.getItem('user')); // << trocar 'user' por 'doneRecipes'
-    // console.log(getLocalStorage);
-    setDoneRecipes(paraTestes); // << apagar e receber do localStore
-    // console.log(doneRecipes);
+    const getLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+    setDoneRecipes(getLocalStorage);
   }, [doneRecipes]);
 
   function handleClick({ target: { name } }) {
@@ -62,7 +35,6 @@ export default function DoneRecipes() {
       return setTypeRecipeSelected(name);
     default:
       return setTypeRecipeSelected(name);
-      // break;
     }
   }
 
@@ -117,6 +89,7 @@ export default function DoneRecipes() {
                 src={ recipe.image }
                 alt={ recipe.name }
                 data-testid={ `${index}-horizontal-image` }
+                width="150px"
               />
               <h2 data-testid={ `${index}-horizontal-name` }>
                 {recipe.name}
@@ -133,21 +106,21 @@ export default function DoneRecipes() {
             </h4>
             <div>
               Tags:
-              {recipe.tags.length > 0 ? (
+              {recipe.type === 'meal' ? (
                 recipe.tags.map((tagName) => (
-                  <span
+                  <p
                     data-testid={ `${index}-${tagName}-horizontal-tag` }
                     key={ tagName }
                   >
                     {tagName}
-                  </span>
+                  </p>
                 ))
               ) : (<p> none </p>)}
             </div>
 
             <button
               type="button"
-              data-testid={ `${index}-horizontal-share-btn` }
+              // data-testid={ `${index}-horizontal-share-btn` }
               onClick={ recipe.type === 'meal'
                 ? () => handleClickShare('meals', recipe.id)
                 : () => handleClickShare('drinks', recipe.id) }
