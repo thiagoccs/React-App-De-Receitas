@@ -6,6 +6,10 @@ import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
 
 describe('Teste do componente HEADER', () => {
   it('Verifica se ao clicar na no button Profile, é redirecionado para /Profile', () => {
+    const mockId = 'user';
+    const mockJson = { email: 'teste@teste.com' };
+    window.localStorage.setItem(mockId, JSON.stringify(mockJson));
+
     const { history } = renderWithRouterAndContext(<App />);
     act(() => {
       history.push('/meals');

@@ -1,55 +1,63 @@
 import { useContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import context from '../context/context';
-import { fetchDispatch } from '../services/fetchApi';
+import fetchAPI from '../services/fetchApi';
 
 function SearchBar() {
+  const INGREDIENT = 'Ingredient';
+  const NAME = 'Name';
+  const FIRST_LETTER = 'First letter';
+
   const {
-    title,
+    inputSelected,
     setFoods,
-    setIngredientesFood,
-    setFirstLetterFoods,
     setDrinks,
-    setFirstLetterDrinks,
-    setIngredientesDrink,
+    setInputSelected,
   } = useContext(context);
   const [searchInput, setSearchInput] = useState('');
-  const [inputSelected, setInputSelected] = useState('Ingredient');
+  const location = useLocation();
+
+  const path = location.pathname.replace(/\//g, '');
 
   const handleClick = async () => {
-    const INGREDIENT = 'Ingredient';
-    const NAME = 'Name';
-    const FIRST_LETTER = 'First letter';
+    const url = path === 'meals' ? 'themealdb' : 'thecocktaildb';
+    switch (path) {
+    case 'meals':
+      if (inputSelected === NAME) {
+        const { meals: foodName } = await fetchAPI(url, 'search.php?s', searchInput);
+        setFoods(foodName);
+      } else if (inputSelected === INGREDIENT) {
+        const { meals: ingredientFood } = await
+        fetchAPI(url, 'filter.php?i', searchInput);
+        setFoods(ingredientFood);
+      } else {
+        const { meals: foodFirstLetter } = await
+        fetchAPI(url, 'search.php?f', searchInput);
+        setFoods(foodFirstLetter);
+      }
+      break;
+    default:
+      if (inputSelected === NAME) {
+        const { drinks: drinkName } = await fetchAPI(url, 'search.php?s', searchInput);
+        setDrinks(drinkName);
+      } else if (inputSelected === INGREDIENT) {
+        const { drinks: ingredientDrink } = await
+        fetchAPI(url, 'filter.php?i', searchInput);
+        setDrinks(ingredientDrink);
+      } else {
+        const { drinks: drinkFirstLetter } = await
+        fetchAPI(url, 'search.php?f', searchInput);
+        setDrinks(drinkFirstLetter);
+      }
+      break;
+    }
+  };
 
-    if (title === 'Meals') {
-      switch (inputSelected) {
-      case NAME:
-        setFoods(await fetchDispatch(searchInput, title).name());
-        break;
-      case INGREDIENT:
-        setIngredientesFood(await fetchDispatch(searchInput, title).ingredient());
-        break;
-      case FIRST_LETTER:
-        setFirstLetterFoods(await fetchDispatch(searchInput, title).firstLetter());
-        break;
-      default:
-        break;
-      }
+  const handleChangeInput = ({ target }) => {
+    if (inputSelected === FIRST_LETTER && searchInput.length >= 1) {
+      global.alert('Your search must have only 1 (one) character');
     }
-    if (title === 'Drinks') {
-      switch (inputSelected) {
-      case NAME:
-        setDrinks(await fetchDispatch(searchInput, title).name());
-        break;
-      case INGREDIENT:
-        setIngredientesDrink(await fetchDispatch(searchInput, title).ingredient());
-        break;
-      case FIRST_LETTER:
-        setFirstLetterDrinks(await fetchDispatch(searchInput, title).firstLetter());
-        break;
-      default:
-        break;
-      }
-    }
+    setSearchInput(target.value);
   };
 
   return (
@@ -59,7 +67,7 @@ function SearchBar() {
         <input
           type="text"
           value={ searchInput }
-          onChange={ ({ target }) => setSearchInput(target.value) }
+          onChange={ handleChangeInput }
           name="search-input"
           data-testid="search-input"
         />
@@ -70,7 +78,7 @@ function SearchBar() {
           type="radio"
           value="Ingredient"
           checked={ inputSelected === 'Ingredient' }
-          onChange={ ({ target }) => setInputSelected(target.value) }
+          onClick={ ({ target }) => setInputSelected(target.value) }
           name="search-input"
         />
         {' '}
@@ -80,7 +88,7 @@ function SearchBar() {
           type="radio"
           value="Name"
           checked={ inputSelected === 'Name' }
-          onChange={ ({ target }) => setInputSelected(target.value) }
+          onClick={ ({ target }) => setInputSelected(target.value) }
           name="search-input"
         />
         {' '}
@@ -90,7 +98,7 @@ function SearchBar() {
           type="radio"
           value="First letter"
           checked={ inputSelected === 'First letter' }
-          onChange={ ({ target }) => setInputSelected(target.value) }
+          onClick={ ({ target }) => setInputSelected(target.value) }
           name="search-input"
         />
         {' '}

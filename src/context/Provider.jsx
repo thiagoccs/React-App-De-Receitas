@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect, useMemo, useState } from 'react';
-import { fetchAPI } from '../services/fetchApi';
+import fetchAPI from '../services/fetchApi';
 import context from './context';
 
 function Provider({ children }) {
@@ -20,6 +20,9 @@ function Provider({ children }) {
   const [title, setTitle] = useState('');
   const [iconSearch, setIconSearch] = useState(true);
   const [showInput, setShowInput] = useState(false);
+  const [inputSelected, setInputSelected] = useState('Ingredient');
+  const [disableImg, setDisableImg] = useState(true);
+  const [clearButton, setClearButton] = useState(false);
 
   useEffect(() => {
     const fetchMeal = async () => {
@@ -60,8 +63,10 @@ function Provider({ children }) {
       user,
       title,
       iconSearch,
+      inputSelected,
       firstLetterFoods,
       firstLetterDrinks,
+      clearButton,
       setIngredientesFood,
       setIngredientesDrink,
       setFirstLetterFoods,
@@ -73,6 +78,10 @@ function Provider({ children }) {
       setIconSearch,
       showInput,
       setShowInput,
+      setInputSelected,
+      disableImg,
+      setDisableImg,
+      setClearButton,
     }),
     [categoriasDrink,
       categoriasFood,
@@ -87,6 +96,11 @@ function Provider({ children }) {
       firstLetterFoods,
       showInput,
       firstLetterDrinks,
+      inputSelected,
+      disableImg,
+      setDisableImg,
+      clearButton,
+      setClearButton,
     ],
   );
   return (
