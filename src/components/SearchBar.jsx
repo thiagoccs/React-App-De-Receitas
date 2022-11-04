@@ -21,7 +21,6 @@ function SearchBar() {
 
   const handleClick = async () => {
     const url = path === 'meals' ? 'themealdb' : 'thecocktaildb';
-
     switch (path) {
     case 'meals':
       if (inputSelected === NAME) {
@@ -79,7 +78,7 @@ function SearchBar() {
           type="radio"
           value="Ingredient"
           checked={ inputSelected === 'Ingredient' }
-          onChange={ ({ target }) => setInputSelected(target.value) }
+          onClick={ ({ target }) => setInputSelected(target.value) }
           name="search-input"
         />
         {' '}
@@ -89,7 +88,7 @@ function SearchBar() {
           type="radio"
           value="Name"
           checked={ inputSelected === 'Name' }
-          onChange={ ({ target }) => setInputSelected(target.value) }
+          onClick={ ({ target }) => setInputSelected(target.value) }
           name="search-input"
         />
         {' '}
@@ -99,7 +98,7 @@ function SearchBar() {
           type="radio"
           value="First letter"
           checked={ inputSelected === 'First letter' }
-          onChange={ ({ target }) => setInputSelected(target.value) }
+          onClick={ ({ target }) => setInputSelected(target.value) }
           name="search-input"
         />
         {' '}

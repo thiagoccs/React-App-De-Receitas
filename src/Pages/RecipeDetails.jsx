@@ -28,12 +28,14 @@ function RecipeDetails() {
 
       setDrinksDetailsState(drinksDetails);
     };
-
+    console.log(pathname);
     if (pathname.includes('meals')) {
       fetchMealsDetails();
+      console.log('entrou no meals');
     }
     if (pathname.includes('drinks')) {
       fetchDrinksDetails();
+      console.log('entrou no drinks');
     }
   }, [id, pathname]);
 
