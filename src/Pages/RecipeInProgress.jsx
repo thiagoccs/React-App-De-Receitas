@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
@@ -8,7 +8,7 @@ function RecipeInProgress() {
     setMealsDetailsState,
     drinksDetailsState,
     setDrinksDetailsState } = useContext(context);
-
+  const [isChecked, setIsChecked] = useState(false);
   const { id } = useParams();
   const { pathname } = useLocation();
 
@@ -37,7 +37,7 @@ function RecipeInProgress() {
     if (pathname.includes('drinks')) {
       fetchDrinksDetails();
     }
-  }, [id, pathname, setDrinksDetailsState, setMealsDetailsState]);
+  }, [id, mealsDetailsState, pathname, setDrinksDetailsState, setMealsDetailsState]);
 
   return (
     <section>
@@ -66,7 +66,13 @@ function RecipeInProgress() {
                         htmlFor="Ingredient"
                         key={ meal[key] }
                       >
-                        <input type="checkbox" name="Ingredient" value={ meal[key] } />
+                        <input
+                          checked={ isChecked }
+                          onChange={ () => setIsChecked(!isChecked) }
+                          type="checkbox"
+                          name="Ingredient"
+                          value={ meal[key] }
+                        />
                         { meal[key] }
                       </label>
                     )
