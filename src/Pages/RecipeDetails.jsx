@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
 
 function RecipeDetails() {
-  const [mealsDetailsState, setMealsDetailsState] = useState([]);
-  const [drinksDetailsState, setDrinksDetailsState] = useState([]);
+  const { mealsDetailsState,
+    setMealsDetailsState,
+    drinksDetailsState,
+    setDrinksDetailsState } = useContext(context);
 
   const { id } = useParams();
   const { location: { pathname } } = useHistory();
@@ -28,16 +31,13 @@ function RecipeDetails() {
 
       setDrinksDetailsState(drinksDetails);
     };
-
     if (pathname.includes('meals')) {
       fetchMealsDetails();
     }
     if (pathname.includes('drinks')) {
       fetchDrinksDetails();
     }
-  }, [id, pathname]);
-
-  console.log(drinksDetailsState);
+  }, [id, pathname, setDrinksDetailsState, setMealsDetailsState]);
 
   return (
     <div>

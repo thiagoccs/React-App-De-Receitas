@@ -42,7 +42,7 @@ export default function PageDrinks() {
 
           >
             <p data-testid={ `${index}-card-name` }>{e.strDrink}</p>
-            <Link to={ `drinks/${e.idDrink} ` }>
+            <Link to={ `drinks/${e.idDrink}` }>
               <img
                 alt={ e.strDrink }
                 src={ e.strDrinkThumb }

@@ -24,7 +24,9 @@ function SearchBar() {
 
     switch (path) {
     case 'meals':
-      if (inputSelected === NAME) {
+      if (inputSelected === FIRST_LETTER && searchInput.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      } else if (inputSelected === NAME) {
         const { meals: foodName } = await fetchAPI(url, 'search.php?s', searchInput);
         setFoods(foodName);
       } else if (inputSelected === INGREDIENT) {
@@ -38,7 +40,9 @@ function SearchBar() {
       }
       break;
     default:
-      if (inputSelected === NAME) {
+      if (inputSelected === FIRST_LETTER && searchInput.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      } else if (inputSelected === NAME) {
         const { drinks: drinkName } = await fetchAPI(url, 'search.php?s', searchInput);
         setDrinks(drinkName);
       } else if (inputSelected === INGREDIENT) {
@@ -55,9 +59,6 @@ function SearchBar() {
   };
 
   const handleChangeInput = ({ target }) => {
-    if (inputSelected === FIRST_LETTER && searchInput.length >= 1) {
-      global.alert('Your search must have only 1 (one) character');
-    }
     setSearchInput(target.value);
   };
 
@@ -79,7 +80,7 @@ function SearchBar() {
           type="radio"
           value="Ingredient"
           checked={ inputSelected === 'Ingredient' }
-          onChange={ ({ target }) => setInputSelected(target.value) }
+          onClick={ ({ target }) => setInputSelected(target.value) }
           name="search-input"
         />
         {' '}
@@ -89,7 +90,7 @@ function SearchBar() {
           type="radio"
           value="Name"
           checked={ inputSelected === 'Name' }
-          onChange={ ({ target }) => setInputSelected(target.value) }
+          onClick={ ({ target }) => setInputSelected(target.value) }
           name="search-input"
         />
         {' '}
@@ -99,7 +100,7 @@ function SearchBar() {
           type="radio"
           value="First letter"
           checked={ inputSelected === 'First letter' }
-          onChange={ ({ target }) => setInputSelected(target.value) }
+          onClick={ ({ target }) => setInputSelected(target.value) }
           name="search-input"
         />
         {' '}
