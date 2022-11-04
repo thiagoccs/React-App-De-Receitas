@@ -5,8 +5,8 @@ import { render } from '@testing-library/react';
 import context from '../../context/context';
 import Provider from '../../context/Provider';
 
-const renderWithRouterAndContext = (component) => {
-  const history = createMemoryHistory();
+const renderWithRouterAndContext = (component, path = '/') => {
+  const history = createMemoryHistory({ initialEntries: [path] });
   return ({
     ...render(
       <Router history={ history }>
