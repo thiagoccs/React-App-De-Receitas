@@ -2,15 +2,36 @@ import { useState, useContext, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
+import '../index.css';
 
 function RecipeInProgress() {
   const { mealsDetailsState,
     setMealsDetailsState,
     drinksDetailsState,
     setDrinksDetailsState } = useContext(context);
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState([false, false, false, false, false,
+    false, false, false, false, false,
+    false, false, false, false, false, false, false, false, false, false]);
   const { id } = useParams();
   const { pathname } = useLocation();
+
+  const setStorage = () => {
+    localStorage.setItem('inProgressRecipes', JSON.stringify(isChecked));
+  };
+  // const getStorage = () => {
+  //   setIsChecked(JSON.parse(localStorage.getItem('inProgressRecipes')));
+  // };
+
+  const handleOnChange = (position) => {
+    const updatedCheckedState = isChecked
+      .map((item, index) => (index === position ? !item : item));
+    setIsChecked(updatedCheckedState);
+    setStorage();
+  };
+
+  // useEffect(() => {
+  //   getStorage();
+  // }, []);
 
   useEffect(() => {
     const fetchMealsDetails = async () => {
@@ -37,13 +58,14 @@ function RecipeInProgress() {
     if (pathname.includes('drinks')) {
       fetchDrinksDetails();
     }
-  }, [id, mealsDetailsState, pathname, setDrinksDetailsState, setMealsDetailsState]);
+  }, [id, isChecked, mealsDetailsState,
+    pathname, setDrinksDetailsState, setMealsDetailsState]);
 
   return (
     <section>
       {pathname.includes('meals') && (
 
-        <div key="teste">
+        <div>
           <h1 data-testid="recipe-title">{mealsDetailsState.strMeal}</h1>
           <img
             src={ mealsDetailsState.strMealThumb }
@@ -62,13 +84,14 @@ function RecipeInProgress() {
                   meal[key] !== null && meal[key] !== ''
                     && (
                       <label
+                        className={ isChecked[index] ? 'checked' : undefined }
                         data-testid={ `${index}-ingredient-step` }
                         htmlFor="Ingredient"
                         key={ meal[key] }
                       >
                         <input
-                          checked={ isChecked }
-                          onChange={ () => setIsChecked(!isChecked) }
+                          checked={ isChecked[index] }
+                          onChange={ () => handleOnChange(index) }
                           type="checkbox"
                           name="Ingredient"
                           value={ meal[key] }
@@ -98,6 +121,10 @@ function RecipeInProgress() {
             alt={ drinksDetailsState.strDrink }
             data-testid="recipe-photo"
           />
+          <div>
+            <button type="button" data-testid="share-btn">Compartilhar</button>
+            <button type="button" data-testid="favorite-btn">Favoritar</button>
+          </div>
           {
             [drinksDetailsState].map((drink) => Object
               .keys(drink).filter((item) => item.includes('strIngredient'))
@@ -106,19 +133,24 @@ function RecipeInProgress() {
                   drink[key] !== null && drink[key] !== ''
                     && (
                       <label
+                        className={ isChecked[index] ? 'checked' : undefined }
                         data-testid={ `${index}-ingredient-step` }
                         htmlFor="Ingredient"
                         key={ drink[key] }
                       >
-                        <input type="checkbox" name="Ingredient" value={ drink[key] } />
+                        <input
+                          checked={ isChecked[index] }
+                          onChange={ () => handleOnChange(index) }
+                          type="checkbox"
+                          name="Ingredient"
+                          value={ drink[key] }
+                        />
                         { drink[key] }
                       </label>
                     )
                 )
               )))
           }
-          <button type="button" data-testid="share-btn">Compartilhar</button>
-          <button type="button" data-testid="favorite-btn">Favoritar</button>
           <p data-testid="recipe-category">{drinksDetailsState.strCategory}</p>
           <div data-testid="instructions">{drinksDetailsState.strInstructions}</div>
           <button type="button" data-testid="finish-recipe-btn">Finalizar Receita</button>
