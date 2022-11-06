@@ -55,7 +55,7 @@ export default function DoneRecipes() {
     // const getLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
     // setDoneRecipes(getLocalStorage);
     setDoneRecipes(paraTestes);
-  }, [paraTestes]);
+  }, []);
 
   function handleClick({ target: { name } }) {
     switch (name) {
