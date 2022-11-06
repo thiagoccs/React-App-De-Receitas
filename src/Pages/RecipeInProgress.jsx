@@ -15,23 +15,22 @@ function RecipeInProgress() {
   const { id } = useParams();
   const { pathname } = useLocation();
 
-  const setStorage = () => {
-    localStorage.setItem('inProgressRecipes', JSON.stringify(isChecked));
-  };
-  // const getStorage = () => {
-  //   setIsChecked(JSON.parse(localStorage.getItem('inProgressRecipes')));
-  // };
-
   const handleOnChange = (position) => {
     const updatedCheckedState = isChecked
       .map((item, index) => (index === position ? !item : item));
     setIsChecked(updatedCheckedState);
+    const setStorage = () => {
+      localStorage.setItem('inProgressRecipes', JSON.stringify(updatedCheckedState));
+    };
     setStorage();
   };
 
-  // useEffect(() => {
-  //   getStorage();
-  // }, []);
+  useEffect(() => {
+    const getStorage = () => {
+      setIsChecked(JSON.parse(localStorage.getItem('inProgressRecipes')));
+    };
+    getStorage();
+  }, []);
 
   useEffect(() => {
     const fetchMealsDetails = async () => {
@@ -91,7 +90,9 @@ function RecipeInProgress() {
                       >
                         <input
                           checked={ isChecked[index] }
-                          onChange={ () => handleOnChange(index) }
+                          onChange={ () => {
+                            handleOnChange(index);
+                          } }
                           type="checkbox"
                           name="Ingredient"
                           value={ meal[key] }
