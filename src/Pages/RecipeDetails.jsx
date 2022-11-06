@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
 
@@ -11,6 +11,8 @@ function RecipeDetails() {
 
   const { id } = useParams();
   const { location: { pathname } } = useHistory();
+  const five = -5;
+  const six = -6;
 
   useEffect(() => {
     const fetchMealsDetails = async () => {
@@ -218,6 +220,20 @@ function RecipeDetails() {
           }
         </>
       )}
+      <Link
+        to={ `${pathname.includes('meals')
+          ? pathname.slice(five)
+          : pathname.slice(six)}/in-progress` }
+      >
+        <button
+          style={ { position: 'fixed', bottom: '0px' } }
+          type="button"
+          data-testid="start-recipe-btn"
+        >
+          Start Recipe
+
+        </button>
+      </Link>
     </div>
   );
 }

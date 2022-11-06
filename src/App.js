@@ -31,6 +31,7 @@ function App() {
       <Route exact path="/favorite-recipes" component={ Favorites } />
       <Route exact path="/meals/:id" component={ RecipeDetails } />
       <Route exact path="/drinks/:id" component={ RecipeDetails } />
+      <Route exact path="in-progress" component={ RecipeInProgress } />
     </div>
   );
 }
