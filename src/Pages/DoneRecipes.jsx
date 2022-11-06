@@ -15,6 +15,7 @@ export default function DoneRecipes() {
   const history = useHistory();
   const { location: { pathname } } = history;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const paraTestes = [
     // << Apagar e substitutir por array vindo do LocalStorage
     {
