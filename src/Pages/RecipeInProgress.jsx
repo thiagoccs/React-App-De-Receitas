@@ -25,12 +25,12 @@ function RecipeInProgress() {
     setStorage();
   };
 
-  useEffect(() => {
-    const getStorage = () => {
-      setIsChecked(JSON.parse(localStorage.getItem('inProgressRecipes')));
-    };
-    getStorage();
-  }, []);
+  // useEffect(() => {
+  //   const getStorage = () => {
+  //     setIsChecked(JSON.parse(localStorage.getItem('inProgressRecipes')));
+  //   };
+  //   getStorage();
+  // }, []);
 
   useEffect(() => {
     const fetchMealsDetails = async () => {
