@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event';
 import DoneRecipes from '../Pages/DoneRecipes';
 import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
 import localStorageMock from './mocks/LocalStorageMock';
-import LocalStorageMock from './mocks/LocalStorageMock';
 
 describe('Testa o Componente DoneRecipes', () => {
 //   afterEach(() => {
