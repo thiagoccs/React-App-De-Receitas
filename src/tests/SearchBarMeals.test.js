@@ -17,6 +17,7 @@ describe('Testa o Componente SearchBar', () => {
   const INGREDIENT_SEARCH_RADIO = 'ingredient-search-radio';
   const NAME_SEARCH_RADIO = 'name-search-radio';
   const SEARCH_INPUT = 'search-input';
+  const EXEC_SEARCH_BTN = 'exec-search-btn';
 
   it('Testa se ao clicar no icone da lupa, os inputs aparecem', async () => {
     await act(async () => {
@@ -85,13 +86,6 @@ describe('Testa o Componente SearchBar', () => {
     userEvent.click(execSearchBtn);
   });
   it('testa o funcionamento do alert', async () => {
-    // global.fetch = jest.fn(async (url) => ({
-    //   json: () => {
-    //     if (url === 'https://www.themealdb.com/api/json/v1/1/search.php?f=a') {
-    //       return Promise.resolve(firstLetterMeals);
-    //     }
-    //   },
-    // }));
     global.alert = jest.fn();
     await act(async () => {
       renderWithRouterAndContext(<PageMeals />, '/meals');
@@ -100,9 +94,11 @@ describe('Testa o Componente SearchBar', () => {
     userEvent.click(screen.getByTestId(SEARCH_TOP_BTN));
     const firstLetter = screen.getByTestId('first-letter-search-radio');
     const searchInput = screen.getByTestId(SEARCH_INPUT);
+    const btnProcurar = screen.getByTestId(EXEC_SEARCH_BTN);
 
     userEvent.click(firstLetter);
     userEvent.type(searchInput, 'aa');
+    userEvent.click(btnProcurar);
 
     expect(global.alert).toHaveBeenCalledTimes(1);
   });

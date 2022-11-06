@@ -84,4 +84,22 @@ describe('Testa o Componente SearchBar', () => {
     userEvent.type(searchInput, 'a');
     userEvent.click(execSearchBtn);
   });
+
+  it('testa o funcionamento do alert', async () => {
+    global.alert = jest.fn();
+    await act(async () => {
+      renderWithRouterAndContext(<PageDrinks />, '/drinks');
+    });
+
+    userEvent.click(screen.getByTestId(SEARCH_TOP_BTN));
+    const firstLetter = screen.getByTestId('first-letter-search-radio');
+    const searchInput = screen.getByTestId(SEARCH_INPUT);
+    const btnProcurar = screen.getByTestId('exec-search-btn');
+
+    userEvent.click(firstLetter);
+    userEvent.type(searchInput, 'aa');
+    userEvent.click(btnProcurar);
+
+    expect(global.alert).toHaveBeenCalledTimes(1);
+  });
 });
