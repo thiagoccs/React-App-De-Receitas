@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import buttonLogin from '../images/Login Button.svg';
 import context from '../context/context';
+import './Login.css';
 
 export default function Login() {
   const { setUser, user } = useContext(context);
@@ -30,34 +32,38 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <label htmlFor="email">
-        Email
-        <input
-          onChange={ handleChange }
-          type="email"
-          name="email"
-          data-testid="email-input"
-        />
-      </label>
-      <label htmlFor="password">
-        Password
-        <input
-          onChange={ handleChange }
-          type="password"
-          name="password"
-          data-testid="password-input"
-        />
-      </label>
-      <button
-        disabled={ isDisabled }
-        type="button"
-        data-testid="login-submit-btn"
-        onClick={ submitLogin }
-      >
-        Entrar
-
-      </button>
+    <div className="div-login">
+      <img className="logo" src="https://images2.imgbox.com/d4/2a/rdWLCdt9_o.png" alt="Logo" />
+      <form>
+        <h2 className="h2B">Bem Vindo!</h2>
+        <label htmlFor="email">
+          <input
+            onChange={ handleChange }
+            type="email"
+            placeholder="Email"
+            name="email"
+            data-testid="email-input"
+          />
+        </label>
+        <label htmlFor="password">
+          <input
+            onChange={ handleChange }
+            type="password"
+            placeholder="Password"
+            name="password"
+            data-testid="password-input"
+          />
+        </label>
+        <button
+          className="img-button"
+          disabled={ isDisabled }
+          type="button"
+          data-testid="login-submit-btn"
+          onClick={ submitLogin }
+        >
+          <img src={ buttonLogin } alt="img-button" />
+        </button>
+      </form>
     </div>
   );
 }
