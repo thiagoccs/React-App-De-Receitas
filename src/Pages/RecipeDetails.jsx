@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useEffect, useContext } from 'react';
+import { useParams, useHistory, Link } from 'react-router-dom';
+import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
 import RecommendedMeals from '../components/RecommendedMeals';
 import RecommendedDrinks from '../components/RecomendedDrinks';
 
 function RecipeDetails() {
-  const [mealsDetailsState, setMealsDetailsState] = useState([]);
-  const [drinksDetailsState, setDrinksDetailsState] = useState([]);
+  const { mealsDetailsState,
+    setMealsDetailsState,
+    drinksDetailsState,
+    setDrinksDetailsState } = useContext(context);
 
   const { id } = useParams();
   const { location: { pathname } } = useHistory();
+  const five = -5;
+  const six = -6;
 
   useEffect(() => {
     const fetchMealsDetails = async () => {
@@ -30,16 +35,13 @@ function RecipeDetails() {
 
       setDrinksDetailsState(drinksDetails);
     };
-
     if (pathname.includes('meals')) {
       fetchMealsDetails();
     }
     if (pathname.includes('drinks')) {
       fetchDrinksDetails();
     }
-  }, [id, pathname]);
-
-  console.log(drinksDetailsState);
+  }, [id, pathname, setDrinksDetailsState, setMealsDetailsState]);
 
   return (
     <div>
@@ -223,6 +225,20 @@ function RecipeDetails() {
       <h1>Receitas Recomendadas</h1>
       { pathname.includes('meals') && <RecommendedDrinks /> }
       { pathname.includes('drinks') && <RecommendedMeals /> }
+      <Link
+        to={ `${pathname.includes('meals')
+          ? pathname.slice(five)
+          : pathname.slice(six)}/in-progress` }
+      >
+        <button
+          style={ { position: 'fixed', bottom: '0px' } }
+          type="button"
+          data-testid="start-recipe-btn"
+        >
+          Start Recipe
+
+        </button>
+      </Link>
     </div>
   );
 }
