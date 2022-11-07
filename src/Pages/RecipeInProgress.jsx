@@ -15,22 +15,45 @@ function RecipeInProgress() {
   const { id } = useParams();
   const { pathname } = useLocation();
 
-  const handleOnChange = (position) => {
+  const handleOnChange = (position, snack, type) => {
     const updatedCheckedState = isChecked
       .map((item, index) => (index === position ? !item : item));
     setIsChecked(updatedCheckedState);
+
     const setStorage = () => {
-      localStorage.setItem('inProgressRecipes', JSON.stringify(updatedCheckedState));
+      const item = { ...JSON.parse(localStorage
+        .getItem('inProgressRecipes')),
+      [snack]: { id: snack, type, checks: updatedCheckedState } };
+      localStorage
+        .setItem('inProgressRecipes', JSON
+          .stringify(item));
     };
     setStorage();
   };
 
-  // useEffect(() => {
-  //   const getStorage = () => {
-  //     setIsChecked(JSON.parse(localStorage.getItem('inProgressRecipes')));
-  //   };
-  //   getStorage();
-  // }, []);
+  useEffect(() => {
+    const getStorage = () => {
+      if (localStorage.getItem('inProgressRecipes') !== null) {
+        const ingredients = JSON.parse(localStorage.getItem('inProgressRecipes'));
+        const typeMeals = Array(ingredients)
+          .map((item) => Object.values(item).filter(({ type }) => type === 'meals'));
+        const typeDrinks = Array(ingredients)
+          .map((item) => Object.values(item).filter(({ type }) => type === 'drinks'));
+
+        if (pathname.includes('meals')) {
+          const foods = typeMeals[0].filter((item) => item.id === id)
+            .map(({ checks }) => checks);
+          setIsChecked(foods[0]);
+        }
+        if (pathname.includes('drinks')) {
+          const drinks = typeDrinks[0].filter((item) => item.id === id)
+            .map(({ checks }) => checks);
+          setIsChecked(drinks[0]);
+        }
+      }
+    };
+    getStorage();
+  }, [id, pathname]);
 
   useEffect(() => {
     const fetchMealsDetails = async () => {
@@ -91,7 +114,7 @@ function RecipeInProgress() {
                         <input
                           checked={ isChecked[index] }
                           onChange={ () => {
-                            handleOnChange(index);
+                            handleOnChange(index, meal.idMeal, 'meals');
                           } }
                           type="checkbox"
                           name="Ingredient"
@@ -141,7 +164,11 @@ function RecipeInProgress() {
                       >
                         <input
                           checked={ isChecked[index] }
-                          onChange={ () => handleOnChange(index) }
+                          onChange={ () => handleOnChange(
+                            index,
+                            drink.idDrink,
+                            'drinks',
+                          ) }
                           type="checkbox"
                           name="Ingredient"
                           value={ drink[key] }
