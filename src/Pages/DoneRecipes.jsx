@@ -15,35 +15,6 @@ export default function DoneRecipes() {
   const history = useHistory();
   const { location: { pathname } } = history;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const paraTestes = [
-    // << Apagar e substitutir por array vindo do LocalStorage
-    {
-      id: '53060',
-      name: 'Burek',
-      type: 'meal',
-      nationality: 'Croatian',
-      category: 'Side',
-      tags: ['teste', 'teste2'],
-      doneDate: '01/11/2022',
-      image:
-        'https://www.themealdb.com/images/media/meals/tkxquw1628771028.jpg',
-      alcoholicOrNot: '',
-    },
-    {
-      id: '13501',
-      name: 'ABC',
-      type: 'drink',
-      nationality: '',
-      category: 'Shot',
-      tags: [],
-      doneDate: '01/11/2022',
-      image:
-        'https://www.thecocktaildb.com/images/media/drink/tqpvqp1472668328.jpg',
-      alcoholicOrNot: 'Alcoholic',
-    },
-  ];
-
   useEffect(() => {
     if (pathname === '/done-recipes') {
       setTitle('Done Recipes');
@@ -52,10 +23,37 @@ export default function DoneRecipes() {
   }, [pathname, setIconSearch, setTitle]);
 
   useEffect(() => {
+    const paraTestes = [
+      // << Apagar e substitutir por array vindo do LocalStorage
+      {
+        id: '53060',
+        name: 'Burek',
+        type: 'meal',
+        nationality: 'Croatian',
+        category: 'Side',
+        tags: ['teste', 'teste2'],
+        doneDate: '01/11/2022',
+        image:
+          'https://www.themealdb.com/images/media/meals/tkxquw1628771028.jpg',
+        alcoholicOrNot: '',
+      },
+      {
+        id: '13501',
+        name: 'ABC',
+        type: 'drink',
+        nationality: '',
+        category: 'Shot',
+        tags: [],
+        doneDate: '01/11/2022',
+        image:
+          'https://www.thecocktaildb.com/images/media/drink/tqpvqp1472668328.jpg',
+        alcoholicOrNot: 'Alcoholic',
+      },
+    ];
     // const getLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
     // setDoneRecipes(getLocalStorage);
     setDoneRecipes(paraTestes);
-  }, [paraTestes]);
+  }, []);
 
   function handleClick({ target: { name } }) {
     switch (name) {
