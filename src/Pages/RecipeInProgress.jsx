@@ -4,9 +4,9 @@ import { useLocation, useParams } from 'react-router-dom';
 import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
 import shareIcon from '../images/shareIcon.svg';
-
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import '../index.css';
-import FavoriteBtn from '../components/FavoriteBtn';
 
 function RecipeInProgress() {
   const { mealsDetailsState,
@@ -17,6 +17,7 @@ function RecipeInProgress() {
     false, false, false, false, false,
     false, false, false, false, false, false, false, false, false, false]);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
+  const [favoriteHeart, setFavoriteHeart] = useState(false);
 
   const { id } = useParams();
   const { pathname } = useLocation();
@@ -35,6 +36,11 @@ function RecipeInProgress() {
           .stringify(item));
     };
     setStorage();
+  };
+
+  const handleFavorite = (snack) => {
+    setFavoriteHeart((prevState) => !prevState);
+    console.log(snack);
   };
 
   useEffect(() => {
@@ -114,7 +120,14 @@ function RecipeInProgress() {
               <img src={ shareIcon } alt="share" />
 
             </button>
-            <FavoriteBtn />
+            <button type="button" onClick={ () => handleFavorite(mealsDetailsState) }>
+              {' '}
+              <img
+                data-testid="favorite-btn"
+                src={ favoriteHeart ? blackHeartIcon : whiteHeartIcon }
+                alt="favorite"
+              />
+            </button>
           </div>
           {
             [mealsDetailsState].map((meal) => Object
@@ -172,7 +185,14 @@ function RecipeInProgress() {
               <img src={ shareIcon } alt="share" />
 
             </button>
-            <FavoriteBtn />
+            <button type="button" onClick={ handleFavorite }>
+              {' '}
+              <img
+                data-testid="favorite-btn"
+                src={ favoriteHeart ? blackHeartIcon : whiteHeartIcon }
+                alt="favorite"
+              />
+            </button>
           </div>
           {
             [drinksDetailsState].map((drink) => Object
