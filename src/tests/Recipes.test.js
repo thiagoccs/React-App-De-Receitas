@@ -18,10 +18,10 @@ describe('Teste do componente Recipes', () => {
     const btnGoat = await screen.findByRole('button', { name: /goat/i }, { timeout: 3000 });
     expect(btnGoat).toBeDefined();
     const image01 = await screen.findByTestId('1-card-img', {}, { timeout: 3000 });
-    const CorbaText = await screen.findByText(/corba/i, {}, {timeout:3000})
+    const CorbaText = await screen.findByText(/corba/i, {}, { timeout: 3000 });
     expect(image01 && CorbaText).toBeInTheDocument();
     userEvent.click(btnGoat);
-    const titleMbuzi = await screen.findByText(/mbuzi choma \(roasted goat\)/i, {}, {timeout: 3000})
+    const titleMbuzi = await screen.findByText(/mbuzi choma \(roasted goat\)/i, {}, { timeout: 3000 });
     expect(titleMbuzi).toBeInTheDocument();
     expect(CorbaText).not.toBeInTheDocument();
   });
