@@ -16,7 +16,7 @@ describe('Teste do componente Recipes', () => {
     const password = screen.getByTestId('password-input');
     userEvent.type(email, 'trybe@trybe.com');
     userEvent.type(password, '12345678');
-    const buttonInicial = screen.getByRole('button', { name: /entrar/i });
+    const buttonInicial = await screen.findByTestId('login-submit-btn', {}, {timeout: 3000});
     expect(buttonInicial).toBeEnabled();
     await waitFor(() => {
       userEvent.click(buttonInicial);

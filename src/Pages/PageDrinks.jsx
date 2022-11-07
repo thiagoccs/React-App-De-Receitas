@@ -6,7 +6,7 @@ import Recipes from '../components/Recipes';
 import context from '../context/context';
 
 export default function PageDrinks() {
-  const { setTitle, setIconSearch, drink } = useContext(context);
+  const { setTitle, setIconSearch, drink, disableImg } = useContext(context);
   const [arrDrinks, setArrDrinks] = useState([]);
 
   const history = useHistory();
@@ -35,7 +35,7 @@ export default function PageDrinks() {
       <Footer />
       <Recipes />
       <section>
-        {arrDrinks.filter((_, i) => i < TWELVE).map((e, index) => (
+        {disableImg && arrDrinks.filter((_, i) => i < TWELVE).map((e, index) => (
           <div
             key={ e.idDrink }
             data-testid={ `${index}-recipe-card` }
