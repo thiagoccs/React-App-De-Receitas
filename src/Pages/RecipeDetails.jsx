@@ -220,6 +220,7 @@ function RecipeDetails() {
           }
         </>
       )}
+      <h1>Receitas Recomendadas</h1>
       { pathname.includes('meals') && <RecommendedDrinks /> }
       { pathname.includes('drinks') && <RecommendedMeals /> }
     </div>

@@ -6,25 +6,27 @@ function RecommendedMeals() {
   const SIX = 6;
 
   return (
-    <div>
-      <h1>Receitas Recomendadas</h1>
+    <div className="items">
       {
         drink.filter((_, index) => index < SIX)
           .map((drinks, index) => (
             <div
+              className="item"
               key={ index }
               data-testid={ `${index}-recommendation-card` }
             >
-              <h1
+
+              <img
+                className="img-carr"
+                alt={ drinks.strDrink }
+                src={ drinks.strDrinkThumb }
+              />
+              <p
                 data-testid={ `${index}-recommendation-title` }
               >
                 { drinks.strDrink }
 
-              </h1>
-              <img
-                alt={ drinks.strDrink }
-                src={ drinks.strDrinkThumb }
-              />
+              </p>
             </div>
           ))
       }

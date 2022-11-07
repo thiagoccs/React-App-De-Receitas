@@ -1,0 +1,33 @@
+.items {
+  display: flex;
+  gap: 10px;
+  margin-left: 10px;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.item {
+  flex: none;
+  scroll-snap-align: start;
+  width: 50%;
+}
+
+.img-carr {
+  border-radius: 20px 20px 0 0;
+  box-shadow: 5px 0 6px rgba(0, 0, 0, 0.4);
+  height: 120px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.item p {
+  background-color: #ffdcbe;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 5px 6px 6px rgba(0, 0, 0, 0.4);
+  font-weight: 600;
+  margin-bottom: 20px;
+  margin-top: -4px;
+  padding: 12px;
+  text-align: center;
+}

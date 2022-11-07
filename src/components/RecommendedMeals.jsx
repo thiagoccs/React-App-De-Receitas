@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import context from '../context/context';
-import '../Pages/style.css';
+import './recommended.css';
 
 function RecommendedMeals() {
   const { foods } = useContext(context);
@@ -9,29 +9,32 @@ function RecommendedMeals() {
   const SIX = 6;
 
   return (
-    <div>
-      <h1>Receitas Recomendadas</h1>
-      {
-        foods.filter((_, index) => index < SIX)
-          .map((food, index) => (
-            <div
-              key={ index }
-              data-testid={ `${index}-recommendation-card` }
-              className="horizontal-scroll"
-            >
-              <h1
-                data-testid={ `${index}-recommendation-title` }
+    <div className="divpai">
+      <div className="items">
+        {
+          foods.filter((_, index) => index < SIX)
+            .map((food, index) => (
+              <div
+                key={ index }
+                data-testid={ `${index}-recommendation-card` }
+                className="item"
               >
-                { food.strMeal }
 
-              </h1>
-              <img
-                alt={ food.strMeal }
-                src={ food.strMealThumb }
-              />
-            </div>
-          ))
-      }
+                <img
+                  className="img-carr"
+                  alt={ food.strMeal }
+                  src={ food.strMealThumb }
+                />
+                <p
+                  data-testid={ `${index}-recommendation-title` }
+                >
+                  { food.strMeal }
+
+                </p>
+              </div>
+            ))
+        }
+      </div>
     </div>
   );
 }
