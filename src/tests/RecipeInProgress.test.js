@@ -30,4 +30,11 @@ describe('Testes da pagina RecipeInProgress', () => {
     expect(screen.getByTestId('favorite-btn')).toBeInTheDocument();
     expect(screen.getByTestId('finish-recipe-btn')).toBeInTheDocument();
   });
+  it('', async () => {
+    await act(async () => {
+      renderWithRouterAndContext(<RecipeInProgress />, '/drinks/178319/in-progress');
+    });
+    userEvent.click(screen.findByTestId('1-ingredient-step'));
+    expect(screen.findByTestId('1-ingredient-step')).toBeChecked();
+  });
 });

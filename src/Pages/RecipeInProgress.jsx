@@ -3,7 +3,10 @@ import copy from 'clipboard-copy';
 import { useLocation, useParams } from 'react-router-dom';
 import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
+import shareIcon from '../images/shareIcon.svg';
+
 import '../index.css';
+import FavoriteBtn from '../components/FavoriteBtn';
 
 function RecipeInProgress() {
   const { mealsDetailsState,
@@ -88,7 +91,7 @@ function RecipeInProgress() {
 
   function handleClickShare(type, snackId) {
     setIsLinkCopied(true);
-    copy(`http://localhost:3000/${type}/${snackId}/in-progress`);
+    copy(`http://localhost:3000/${type}/${snackId}`);
   }
 
   return (
@@ -108,10 +111,10 @@ function RecipeInProgress() {
               data-testid="share-btn"
               onClick={ () => handleClickShare('meals', id) }
             >
-              Compartilhar
+              <img src={ shareIcon } alt="share" />
 
             </button>
-            <button type="button" data-testid="favorite-btn">Favoritar</button>
+            <FavoriteBtn />
           </div>
           {
             [mealsDetailsState].map((meal) => Object
@@ -166,10 +169,10 @@ function RecipeInProgress() {
               data-testid="share-btn"
               onClick={ () => handleClickShare('drinks', id) }
             >
-              Compartilhar
+              <img src={ shareIcon } alt="share" />
 
             </button>
-            <button type="button" data-testid="favorite-btn">Favoritar</button>
+            <FavoriteBtn />
           </div>
           {
             [drinksDetailsState].map((drink) => Object
