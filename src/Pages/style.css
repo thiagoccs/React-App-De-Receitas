@@ -1,6 +1,6 @@
 .horizontal-scroll {
-  width: 50%;
   height: 300px;
-  overflow-y: hidden;
   overflow-x: auto;
+  overflow-y: hidden;
+  width: 50%;
 }
