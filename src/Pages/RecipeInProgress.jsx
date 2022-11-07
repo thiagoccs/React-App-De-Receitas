@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
+import copy from 'clipboard-copy';
 import { useLocation, useParams } from 'react-router-dom';
 import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
@@ -12,6 +13,8 @@ function RecipeInProgress() {
   const [isChecked, setIsChecked] = useState([false, false, false, false, false,
     false, false, false, false, false,
     false, false, false, false, false, false, false, false, false, false]);
+  const [isLinkCopied, setIsLinkCopied] = useState(false);
+
   const { id } = useParams();
   const { pathname } = useLocation();
 
@@ -83,6 +86,11 @@ function RecipeInProgress() {
   }, [id, isChecked, mealsDetailsState,
     pathname, setDrinksDetailsState, setMealsDetailsState]);
 
+  function handleClickShare(type, snackId) {
+    setIsLinkCopied(true);
+    copy(`http://localhost:3000/${type}/${snackId}/in-progress`);
+  }
+
   return (
     <section>
       {pathname.includes('meals') && (
@@ -95,7 +103,14 @@ function RecipeInProgress() {
             data-testid="recipe-photo"
           />
           <div>
-            <button type="button" data-testid="share-btn">Compartilhar</button>
+            <button
+              type="button"
+              data-testid="share-btn"
+              onClick={ () => handleClickShare('meals', id) }
+            >
+              Compartilhar
+
+            </button>
             <button type="button" data-testid="favorite-btn">Favoritar</button>
           </div>
           {
@@ -146,7 +161,14 @@ function RecipeInProgress() {
             data-testid="recipe-photo"
           />
           <div>
-            <button type="button" data-testid="share-btn">Compartilhar</button>
+            <button
+              type="button"
+              data-testid="share-btn"
+              onClick={ () => handleClickShare('drinks', id) }
+            >
+              Compartilhar
+
+            </button>
             <button type="button" data-testid="favorite-btn">Favoritar</button>
           </div>
           {
@@ -184,6 +206,7 @@ function RecipeInProgress() {
           <button type="button" data-testid="finish-recipe-btn">Finalizar Receita</button>
         </div>
       )}
+      {isLinkCopied && <p>Link copied!</p>}
     </section>
   );
 }
