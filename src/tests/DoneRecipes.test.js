@@ -53,7 +53,7 @@ describe('Testa o Componente DoneRecipes', () => {
   });
 
   it('Testa Os botoões de filtros', async () => {
-    LocalStorageMock(paraTestes);
+    localStorageMock(paraTestes);
     await act(async () => {
       renderWithRouterAndContext(<DoneRecipes />, doneRecipes);
     });
@@ -80,8 +80,7 @@ describe('Testa o Componente DoneRecipes', () => {
   });
 
   it('Testa o botão da primeira IMG Done Recipes', async () => {
-    localStorageMock.clear();
-    LocalStorageMock(paraTestes);
+    localStorageMock(paraTestes);
     await act(async () => {
       renderWithRouterAndContext(<DoneRecipes />, doneRecipes);
     });
@@ -97,7 +96,7 @@ describe('Testa o Componente DoneRecipes', () => {
       writeText: jest.fn(),
     };
     global.navigator.clipboard = mockClipboard;
-    LocalStorageMock(paraTestes);
+    localStorageMock(paraTestes);
     await act(async () => {
       renderWithRouterAndContext(<DoneRecipes />, doneRecipes);
     });
@@ -107,7 +106,7 @@ describe('Testa o Componente DoneRecipes', () => {
   });
 
   it('Testa o botão Drinks DoneRecipes', async () => {
-    LocalStorageMock(paraTestes);
+    localStorageMock(paraTestes);
     await act(async () => {
       renderWithRouterAndContext(<DoneRecipes />, doneRecipes);
     });
