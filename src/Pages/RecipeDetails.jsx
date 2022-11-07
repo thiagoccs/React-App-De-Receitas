@@ -2,6 +2,8 @@ import React, { useEffect, useContext } from 'react';
 import { useParams, useHistory, Link } from 'react-router-dom';
 import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
+import RecommendedMeals from '../components/RecommendedMeals';
+import RecommendedDrinks from '../components/RecomendedDrinks';
 
 function RecipeDetails() {
   const { mealsDetailsState,
@@ -220,6 +222,9 @@ function RecipeDetails() {
           }
         </>
       )}
+      <h1>Receitas Recomendadas</h1>
+      { pathname.includes('meals') && <RecommendedDrinks /> }
+      { pathname.includes('drinks') && <RecommendedMeals /> }
       <Link
         to={ `${pathname.includes('meals')
           ? pathname.slice(five)
