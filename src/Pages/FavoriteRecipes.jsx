@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import copy from 'clipboard-copy';
 import Header from '../components/Header';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+// import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 import context from '../context/context';
 
@@ -30,10 +31,10 @@ import context from '../context/context';
 //   },
 // ];
 
-export default function DoneRecipes() {
+export default function Favorites() {
   const { setTitle, setIconSearch } = useContext(context);
 
-  const [doneRecipes, setDoneRecipes] = useState([]);
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [typeRecipeSelected, setTypeRecipeSelected] = useState('');
   const [isLinkCopied, setIsLinkCopied] = useState(false);
 
@@ -41,17 +42,17 @@ export default function DoneRecipes() {
   const { location: { pathname } } = history;
 
   useEffect(() => {
-    if (pathname === '/done-recipes') {
-      setTitle('Done Recipes');
+    if (pathname === '/favorite-recipes') {
+      setTitle('Favorite Recipes');
       setIconSearch(false);
     }
   }, [pathname, setIconSearch, setTitle]);
 
   useEffect(() => {
-    const getLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
-    setDoneRecipes(getLocalStorage);
-    // setDoneRecipes(paraTestes);
-  }, [doneRecipes]);
+    const getLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    setFavoriteRecipes(getLocalStorage);
+    // setFavoriteRecipes(paraTestes);
+  }, [favoriteRecipes]);
 
   function handleClick({ target: { name } }) {
     switch (name) {
@@ -72,6 +73,13 @@ export default function DoneRecipes() {
   function handleClickShare(type, id) {
     setIsLinkCopied(true);
     copy(`http://localhost:3000/${type}/${id}`);
+  }
+
+  function handleClickFAvorite(idTarget) {
+    console.log(idTarget);
+    const newFilterFavorites = localStorage.filter((recipe) => recipe.id !== idTarget);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFilterFavorites));
+    setFavoriteRecipes(newFilterFavorites);
   }
 
   return (
@@ -102,10 +110,10 @@ export default function DoneRecipes() {
         Drinks
       </button>
 
-      { doneRecipes
-      && doneRecipes.filter((recipe) => recipe.type.includes(typeRecipeSelected))
+      {favoriteRecipes
+      && favoriteRecipes.filter((recipe) => recipe.type.includes(typeRecipeSelected))
         .map((recipe, index) => (
-          <div key={ recipe.id }>
+          <>
             <button
               type="button"
               onClick={ recipe.type === 'meal'
@@ -113,6 +121,7 @@ export default function DoneRecipes() {
                 : () => handleClickDirection('drinks', recipe.id) }
             >
               <img
+                key={ index }
                 src={ recipe.image }
                 alt={ recipe.name }
                 data-testid={ `${index}-horizontal-image` }
@@ -127,23 +136,25 @@ export default function DoneRecipes() {
                 ? `${recipe.nationality} - ${recipe.category}`
                 : recipe.alcoholicOrNot}
             </h3>
-            <h4 data-testid={ `${index}-horizontal-done-date` }>
-              Recipe done:
-              {recipe.doneDate}
-            </h4>
-            <div>
-              Tags:
-              {recipe.type === 'meal' ? (
-                recipe.tags.map((tagName) => (
-                  <p
-                    data-testid={ `${index}-${tagName}-horizontal-tag` }
-                    key={ tagName }
-                  >
-                    {tagName}
-                  </p>
-                ))
-              ) : (<p> none </p>)}
-            </div>
+
+            {/* <button
+              type="button"
+              onClick={ handleClickFAvorite }
+            >
+              <img
+                id={ recipe.id }
+                data-testid={ `${index}-horizontal-favorite-btn` }
+                src={ blackHeartIcon }
+                alt="favorite"
+              />
+            </button> */}
+            <input
+              onClick={ () => handleClickFAvorite(recipe.id) }
+              type="image"
+              alt="favorite"
+              data-testid={ `${index}-horizontal-favorite-btn` }
+              src={ blackHeartIcon }
+            />
 
             <button
               type="button"
@@ -157,10 +168,10 @@ export default function DoneRecipes() {
                 alt="shareRecipe"
               />
             </button>
-          </div>
-        ))}
 
-      {isLinkCopied && <p>Link copied!</p>}
+            {isLinkCopied && <p>Link copied!</p>}
+          </>
+        ))}
     </div>
   );
 }
