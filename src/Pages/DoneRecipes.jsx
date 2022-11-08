@@ -109,8 +109,8 @@ export default function DoneRecipes() {
             <button
               type="button"
               onClick={ recipe.type === 'meal'
-                ? () => handleClickDirection('meals', recipe.id)
-                : () => handleClickDirection('drinks', recipe.id) }
+                ? () => handleClickDirection('meals', recipe.idMeal)
+                : () => handleClickDirection('drinks', recipe.idDrink) }
             >
               <img
                 src={ recipe.image }
