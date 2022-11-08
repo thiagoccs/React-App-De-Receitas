@@ -12,7 +12,8 @@ function RecipeInProgress() {
   const { mealsDetailsState,
     setMealsDetailsState,
     drinksDetailsState,
-    setDrinksDetailsState } = useContext(context);
+    setDrinksDetailsState,
+  } = useContext(context);
   const [isChecked, setIsChecked] = useState([false, false, false, false, false,
     false, false, false, false, false,
     false, false, false, false, false, false, false, false, false, false]);
@@ -40,7 +41,27 @@ function RecipeInProgress() {
 
   const handleFavorite = (snack) => {
     setFavoriteHeart((prevState) => !prevState);
-    console.log(snack);
+    const setStorage = () => {
+      const storage = JSON.parse(localStorage
+        .getItem('favoriteRecipes'));
+
+      const food = storage === null ? [] : storage;
+      const item = [...food, {
+        id: pathname.includes('meals') ? snack.idMeal : snack.idDrink,
+        type: pathname.includes('meals') ? 'meal' : 'drink',
+        nationality: snack.strArea,
+        category: snack.strCategory,
+        alcoholicOrNot: pathname.includes('meals') ? '' : snack.strAlcoholic,
+        name: pathname.includes('meals') ? snack.strMeal : snack.strDrink,
+        image: pathname.includes('meals') ? snack.strMealThumb : snack.strDrinkThumb,
+      }];
+      localStorage
+        .setItem('favoriteRecipes', JSON
+          .stringify(item));
+    };
+    if (pathname.includes('meals')) {
+      setStorage();
+    }
   };
 
   useEffect(() => {

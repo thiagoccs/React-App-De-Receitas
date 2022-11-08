@@ -95,9 +95,7 @@ function Provider({ children }) {
       foods,
       ingredientesDrink,
       ingredientesFood,
-      nacionalidadeFood,
-      user,
-      title,
+      nacionalidadeFood, user, title,
       iconSearch,
       firstLetterFoods,
       showInput,
@@ -108,8 +106,7 @@ function Provider({ children }) {
       clearButton,
       setClearButton,
       mealsDetailsState,
-      drinksDetailsState,
-    ],
+      drinksDetailsState],
   );
   return (
     <context.Provider value={ contextValue }>
