@@ -4,6 +4,7 @@ import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
 import RecommendedMeals from '../components/RecommendedMeals';
 import RecommendedDrinks from '../components/RecomendedDrinks';
+import ShareBtn from '../components/ShareBtn';
 
 function RecipeDetails() {
   const { mealsDetailsState,
@@ -222,6 +223,7 @@ function RecipeDetails() {
           }
         </>
       )}
+      <ShareBtn />
       <h1>Receitas Recomendadas</h1>
       { pathname.includes('meals') && <RecommendedDrinks /> }
       { pathname.includes('drinks') && <RecommendedMeals /> }
@@ -236,7 +238,6 @@ function RecipeDetails() {
           data-testid="start-recipe-btn"
         >
           Start Recipe
-
         </button>
       </Link>
     </div>
