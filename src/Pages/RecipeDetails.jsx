@@ -4,7 +4,7 @@ import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
 import RecommendedMeals from '../components/RecommendedMeals';
 import RecommendedDrinks from '../components/RecomendedDrinks';
-import ShareBtn from '../components/ShareBtn';
+import ShareAndFavoriteBtn from '../components/ShareAndFavoriteBtn';
 
 function RecipeDetails() {
   const { mealsDetailsState,
@@ -223,7 +223,7 @@ function RecipeDetails() {
           }
         </>
       )}
-      <ShareBtn />
+      <ShareAndFavoriteBtn />
       <h1>Receitas Recomendadas</h1>
       { pathname.includes('meals') && <RecommendedDrinks /> }
       { pathname.includes('drinks') && <RecommendedMeals /> }
