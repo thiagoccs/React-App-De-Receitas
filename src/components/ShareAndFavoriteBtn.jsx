@@ -7,9 +7,9 @@ function ShareAndFavoriteBtn() {
   const { id } = useParams();
   const { location: { pathname } } = useHistory();
 
-  function handleClickShare(type, id) {
+  function handleClickShare(type, param) {
     setIsLinkCopied(true);
-    copy(`http://localhost:3000/${type}/${id}`);
+    copy(`http://localhost:3000/${type}/${param}`);
   }
   return (
     <div>
