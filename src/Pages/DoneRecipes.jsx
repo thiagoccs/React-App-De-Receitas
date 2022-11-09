@@ -5,31 +5,6 @@ import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import context from '../context/context';
 
-// const paraTestes = [
-//   {
-//     id: '53060',
-//     name: 'Burek',
-//     type: 'meal',
-//     nationality: 'Croatian',
-//     category: 'Side',
-//     tags: ['teste', 'teste2'],
-//     doneDate: '01/11/2022',
-//     image: 'https://www.themealdb.com/images/media/meals/tkxquw1628771028.jpg',
-//     alcoholicOrNot: '',
-//   },
-//   {
-//     id: '13501',
-//     name: 'ABC',
-//     type: 'drink',
-//     nationality: '',
-//     category: 'Shot',
-//     tags: [],
-//     doneDate: '01/11/2022',
-//     image: 'https://www.thecocktaildb.com/images/media/drink/tqpvqp1472668328.jpg',
-//     alcoholicOrNot: 'Alcoholic',
-//   },
-// ];
-
 export default function DoneRecipes() {
   const { setTitle, setIconSearch } = useContext(context);
 
@@ -106,8 +81,8 @@ export default function DoneRecipes() {
             <button
               type="button"
               onClick={ recipe.type === 'meal'
-                ? () => handleClickDirection('meals', recipe.id)
-                : () => handleClickDirection('drinks', recipe.id) }
+                ? () => handleClickDirection('meals', recipe.idMeal)
+                : () => handleClickDirection('drinks', recipe.idDrink) }
             >
               <img
                 src={ recipe.image }

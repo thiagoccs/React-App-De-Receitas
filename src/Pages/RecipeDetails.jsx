@@ -4,16 +4,13 @@ import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
 import RecommendedMeals from '../components/RecommendedMeals';
 import RecommendedDrinks from '../components/RecomendedDrinks';
+import ShareAndFavoriteBtn from '../components/ShareAndFavoriteBtn';
 
 function RecipeDetails() {
-  const { mealsDetailsState,
-    setMealsDetailsState,
-    drinksDetailsState,
+  const { mealsDetailsState, setMealsDetailsState, drinksDetailsState,
     setDrinksDetailsState } = useContext(context);
-
   const { id } = useParams();
   const { location: { pathname } } = useHistory();
-
   useEffect(() => {
     const fetchMealsDetails = async () => {
       const mealsDetails = await fetchAPI(
@@ -21,7 +18,6 @@ function RecipeDetails() {
         'lookup.php?i',
         id,
       );
-
       setMealsDetailsState(mealsDetails);
     };
     const fetchDrinksDetails = async () => {
@@ -30,7 +26,6 @@ function RecipeDetails() {
         'lookup.php?i',
         id,
       );
-
       setDrinksDetailsState(drinksDetails);
     };
     if (pathname.includes('meals')) {
@@ -220,6 +215,7 @@ function RecipeDetails() {
           }
         </>
       )}
+      <ShareAndFavoriteBtn />
       <h1>Receitas Recomendadas</h1>
       { pathname.includes('meals') && <RecommendedDrinks /> }
       { pathname.includes('drinks') && <RecommendedMeals /> }
@@ -232,7 +228,6 @@ function RecipeDetails() {
           data-testid="start-recipe-btn"
         >
           Start Recipe
-
         </button>
       </Link>
     </div>
