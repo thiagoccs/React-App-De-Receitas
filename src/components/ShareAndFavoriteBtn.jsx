@@ -21,36 +21,6 @@ function ShareAndFavoriteBtn() {
     copy(`http://localhost:3000/${type}/${param}`);
   }
 
-  // const localStorageInfo = () => {
-  //   if (pathname.includes('meals')) {
-  //     const dataMeals = mealsDetailsState.meals
-  //       .map((meal) => ({
-  //         id: meal.idMeal,
-  //         type: 'meal',
-  //         nationality: meal.strArea,
-  //         category: meal.strCategory,
-  //         alcoholicOrNot: '',
-  //         name: meal.strMeal,
-  //         image: meal.strMealThumb,
-  //       }));
-  //     console.log(dataMeals);
-  //     localStorage.setItem('favoriteRecipes', JSON.stringify(dataMeals));
-  //   }
-  //   if (pathname.includes('drinks')) {
-  //     const dataDrinks = drinksDetailsState.drinks
-  //       .map((drink) => ({
-  //         id: drink.idDrink,
-  //         type: 'drink',
-  //         nationality: drink.strArea || '',
-  //         category: drink.strCategory,
-  //         alcoholicOrNot: drink.strAlcoholic || '',
-  //         name: drink.strDrink,
-  //         image: drink.strDrinkThumb,
-  //       }));
-  //     localStorage.setItem('favoriteRecipes', JSON.stringify(dataDrinks));
-  //   }
-  // };
-
   const handleFavorite = (snack) => {
     setFavoriteHeart((prevState) => !prevState);
     console.log(snack);
