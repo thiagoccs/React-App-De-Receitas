@@ -11,8 +11,6 @@ function RecipeDetails() {
     setDrinksDetailsState } = useContext(context);
   const { id } = useParams();
   const { location: { pathname } } = useHistory();
-  const five = -5;
-  const six = -6;
   useEffect(() => {
     const fetchMealsDetails = async () => {
       const mealsDetails = await fetchAPI(
@@ -222,9 +220,7 @@ function RecipeDetails() {
       { pathname.includes('meals') && <RecommendedDrinks /> }
       { pathname.includes('drinks') && <RecommendedMeals /> }
       <Link
-        to={ `${pathname.includes('meals')
-          ? pathname.slice(five)
-          : pathname.slice(six)}/in-progress` }
+        to={ `${pathname}/in-progress` }
       >
         <button
           style={ { position: 'fixed', bottom: '0px' } }

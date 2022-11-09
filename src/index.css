@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.checked {
+  text-decoration: line-through solid rgb(0, 0, 0)
+}
+
 .fix-footer {
   position:fixed;
   right: 0;
