@@ -5,7 +5,6 @@ import './recommended.css';
 function RecommendedMeals() {
   const { foods } = useContext(context);
 
-  console.log(foods);
   const SIX = 6;
 
   return (
