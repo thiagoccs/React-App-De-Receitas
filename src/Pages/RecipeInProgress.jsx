@@ -21,28 +21,35 @@ function RecipeInProgress() {
     false, false, false, false, false,
     false, false, false, false, false, false, false, false, false, false]);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
-
+  const [isDisabled, setIsDisabled] = useState(false);
   const [favoriteHeart, setFavoriteHeart] = useState(false);
-
   const { id } = useParams();
   const { pathname } = useLocation();
-
   const handleOnChange = (position, snack, type) => {
     const updatedCheckedState = isChecked
       .map((item, index) => (index === position ? !item : item));
     setIsChecked(updatedCheckedState);
-
+    const snackArray = pathname.includes('meals')
+      ? mealsDetailsState : drinksDetailsState;
+    const disabled = Array(snackArray).map((feed) => Object
+      .keys(feed).filter((item) => item.includes('strIngredient'))
+      .filter((key) => feed[key] !== null && feed[key] !== ''));
+    const arrCheck = updatedCheckedState.filter((item) => item === true);
+    const teste = disabled[0].length !== arrCheck.length;
+    setIsDisabled(teste);
     const setStorage = () => {
       const item = { ...JSON.parse(localStorage
         .getItem('inProgressRecipes')),
-      [snack]: { id: snack, type, checks: updatedCheckedState } };
+      [snack]: { id: snack,
+        type,
+        checks: updatedCheckedState,
+        done: disabled[0].length !== arrCheck.length } };
       localStorage
         .setItem('inProgressRecipes', JSON
           .stringify(item));
     };
     setStorage();
   };
-
   const setStorage = (snack) => {
     const storage = JSON.parse(localStorage
       .getItem('favoriteRecipes'));
@@ -71,7 +78,6 @@ function RecipeInProgress() {
           .stringify(item));
     }
   };
-
   const handleFavorite = (snack) => {
     setFavoriteHeart((prevState) => !prevState);
     setStorage(snack);
@@ -91,23 +97,26 @@ function RecipeInProgress() {
           .map((item) => Object.values(item).filter(({ type }) => type === 'meals'));
         const typeDrinks = Array(ingredients)
           .map((item) => Object.values(item).filter(({ type }) => type === 'drinks'));
-
         if (pathname.includes('meals')) {
           const foods = typeMeals[0].filter((item) => item.id === id)
             .map(({ checks }) => checks);
+          const foodsDone = typeMeals[0].filter((item) => item.id === id)
+            .map(({ done }) => done);
           setIsChecked(foods[0]);
+          setIsDisabled(foodsDone[0]);
         }
         if (pathname.includes('drinks')) {
           const drinks = typeDrinks[0].filter((item) => item.id === id)
             .map(({ checks }) => checks);
+          const drinksDone = typeDrinks[0].filter((item) => item.id === id)
+            .map(({ done }) => done);
           setIsChecked(drinks[0]);
+          setIsDisabled(drinksDone[0]);
         }
       }
     };
-
     getStorage();
   }, [id, pathname]);
-
   useEffect(() => {
     const fetchMealsDetails = async () => {
       const mealsDetails = await fetchAPI(
@@ -123,10 +132,8 @@ function RecipeInProgress() {
         'lookup.php?i',
         id,
       );
-
       setDrinksDetailsState(drinksDetails.drinks[0]);
     };
-
     if (pathname.includes('meals')) {
       fetchMealsDetails();
     }
@@ -134,16 +141,13 @@ function RecipeInProgress() {
       fetchDrinksDetails();
     }
   }, [id, pathname, setDrinksDetailsState, setMealsDetailsState]);
-
   function handleClickShare(type, snackId) {
     setIsLinkCopied(true);
     copy(`http://localhost:3000/${type}/${snackId}`);
   }
-
   return (
     <section>
       {pathname.includes('meals') && (
-
         <div>
           <h1 data-testid="recipe-title">{mealsDetailsState.strMeal}</h1>
           <img
@@ -158,7 +162,6 @@ function RecipeInProgress() {
               onClick={ () => handleClickShare('meals', id) }
             >
               <img src={ shareIcon } alt="share" />
-
             </button>
             <button type="button" onClick={ () => handleFavorite(mealsDetailsState) }>
               {' '}
@@ -182,11 +185,12 @@ function RecipeInProgress() {
           <p data-testid="recipe-category">{mealsDetailsState.strCategory}</p>
           <div data-testid="instructions">{mealsDetailsState.strInstructions}</div>
           <button
+            style={ { position: 'fixed', bottom: '0px' } }
             type="button"
             data-testid="finish-recipe-btn"
+            disabled={ isDisabled }
           >
             Finalizar Receita
-
           </button>
         </div>
       )}
@@ -205,7 +209,6 @@ function RecipeInProgress() {
               onClick={ () => handleClickShare('drinks', id) }
             >
               <img src={ shareIcon } alt="share" />
-
             </button>
             <button type="button" onClick={ () => handleFavorite(drinksDetailsState) }>
               {' '}
@@ -226,18 +229,17 @@ function RecipeInProgress() {
           />
           <p data-testid="recipe-category">
             {drinksDetailsState.strCategory}
-
           </p>
           <div data-testid="instructions">
             {drinksDetailsState.strInstructions}
-
           </div>
           <button
+            style={ { position: 'fixed', bottom: '0px' } }
             type="button"
             data-testid="finish-recipe-btn"
+            disabled={ isDisabled }
           >
             Finalizar Receita
-
           </button>
         </div>
       )}
@@ -245,5 +247,4 @@ function RecipeInProgress() {
     </section>
   );
 }
-
 export default RecipeInProgress;
