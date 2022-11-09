@@ -50,13 +50,11 @@ export default function DoneRecipes() {
   useEffect(() => {
     const getLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
     setDoneRecipes(getLocalStorage);
-  }, [doneRecipes]);
+  }, []);
 
   function handleClick({ target: { name } }) {
     switch (name) {
     case 'meal':
-      return setTypeRecipeSelected(name);
-    case 'drink':
       return setTypeRecipeSelected(name);
     default:
       return setTypeRecipeSelected(name);

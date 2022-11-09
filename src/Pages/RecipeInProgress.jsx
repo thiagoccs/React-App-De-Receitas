@@ -1,11 +1,8 @@
 import { useState, useContext, useEffect } from 'react';
 import copy from 'clipboard-copy';
-import { useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import context from '../context/context';
 import fetchAPI from '../services/fetchApi';
-import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import '../index.css';
 import LinkCopied from '../components/LinkCopied';
 import RecipeInProgressDrink from '../components/RecipeInProgressDrink';
@@ -25,6 +22,7 @@ function RecipeInProgress() {
   const [favoriteHeart, setFavoriteHeart] = useState(false);
   const { id } = useParams();
   const { pathname } = useLocation();
+  const history = useHistory();
   const handleOnChange = (position, snack, type) => {
     const updatedCheckedState = isChecked
       .map((item, index) => (index === position ? !item : item));
@@ -35,8 +33,8 @@ function RecipeInProgress() {
       .keys(feed).filter((item) => item.includes('strIngredient'))
       .filter((key) => feed[key] !== null && feed[key] !== ''));
     const arrCheck = updatedCheckedState.filter((item) => item === true);
-    const teste = disabled[0].length !== arrCheck.length;
-    setIsDisabled(teste);
+    const verify = disabled[0].length !== arrCheck.length;
+    setIsDisabled(verify);
     const setStorage = () => {
       const item = { ...JSON.parse(localStorage
         .getItem('inProgressRecipes')),
@@ -145,103 +143,63 @@ function RecipeInProgress() {
     setIsLinkCopied(true);
     copy(`http://localhost:3000/${type}/${snackId}`);
   }
+
+  const handleClickFinishRecipe = (snack) => {
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    const storage = JSON.parse(localStorage
+      .getItem('doneRecipes'));
+    const feed = storage === null ? [] : storage;
+    const item = [...feed, {
+      id,
+      name: pathname.includes('meals') ? snack.strMeal : snack.strDrink,
+      type: pathname.includes('meals') ? 'meal' : 'drink',
+      nationality: pathname.includes('meals') ? snack.strArea : '',
+      category: snack.strCategory,
+      tags: snack.strTags !== null ? snack.strTags.split(',') : [],
+      doneDate: today.toISOString(),
+      image: pathname.includes('meals') ? snack.strMealThumb : snack.strDrinkThumb,
+      alcoholicOrNot: pathname.includes('meals') ? '' : snack.strAlcoholic,
+    }];
+    localStorage
+      .setItem('doneRecipes', JSON
+        .stringify(item));
+    history.push('/done-recipes');
+  };
+
   return (
     <section>
       {pathname.includes('meals') && (
-        <div>
-          <h1 data-testid="recipe-title">{mealsDetailsState.strMeal}</h1>
-          <img
-            src={ mealsDetailsState.strMealThumb }
-            alt={ mealsDetailsState.strMeal }
-            data-testid="recipe-photo"
-          />
-          <div>
-            <button
-              type="button"
-              data-testid="share-btn"
-              onClick={ () => handleClickShare('meals', id) }
-            >
-              <img src={ shareIcon } alt="share" />
-            </button>
-            <button type="button" onClick={ () => handleFavorite(mealsDetailsState) }>
-              {' '}
-              <img
-                data-testid="favorite-btn"
-                src={
-                  favoriteHeart ? blackHeartIcon : whiteHeartIcon
-                }
-                alt="favorite"
-              />
-            </button>
-          </div>
-          <RecipeInProgressMeal
-            handleOnChange={ handleOnChange }
-            isChecked={ isChecked !== undefined
-              ? isChecked : setIsChecked([false, false, false, false, false,
-                false, false, false, false, false,
-                false, false, false, false, false, false, false, false, false, false]) }
-            mealsDetailsState={ mealsDetailsState }
-          />
-          <p data-testid="recipe-category">{mealsDetailsState.strCategory}</p>
-          <div data-testid="instructions">{mealsDetailsState.strInstructions}</div>
-          <button
-            style={ { position: 'fixed', bottom: '0px' } }
-            type="button"
-            data-testid="finish-recipe-btn"
-            disabled={ isDisabled }
-          >
-            Finalizar Receita
-          </button>
-        </div>
+        <RecipeInProgressMeal
+          handleOnChange={ handleOnChange }
+          handleClickShare={ () => handleClickShare('meals', id) }
+          isChecked={ isChecked !== undefined
+            ? isChecked : setIsChecked([false, false, false, false, false,
+              false, false, false, false, false,
+              false, false, false, false, false, false, false, false, false, false]) }
+          mealsDetailsState={ mealsDetailsState }
+          handleFavorite={ handleFavorite }
+          isDisabled={ isDisabled }
+          favoriteHeart={ favoriteHeart }
+          id={ id }
+          handleClickFinishRecipe={ handleClickFinishRecipe }
+        />
       )}
       {pathname.includes('drinks') && (
-        <div>
-          <h1 data-testid="recipe-title">{drinksDetailsState.strDrink}</h1>
-          <img
-            src={ drinksDetailsState.strDrinkThumb }
-            alt={ drinksDetailsState.strDrink }
-            data-testid="recipe-photo"
-          />
-          <div>
-            <button
-              type="button"
-              data-testid="share-btn"
-              onClick={ () => handleClickShare('drinks', id) }
-            >
-              <img src={ shareIcon } alt="share" />
-            </button>
-            <button type="button" onClick={ () => handleFavorite(drinksDetailsState) }>
-              {' '}
-              <img
-                data-testid="favorite-btn"
-                src={ favoriteHeart ? blackHeartIcon : whiteHeartIcon }
-                alt="favorite"
-              />
-            </button>
-          </div>
-          <RecipeInProgressDrink
-            handleOnChange={ handleOnChange }
-            isChecked={ isChecked !== undefined
-              ? isChecked : setIsChecked([false, false, false, false, false,
-                false, false, false, false, false,
-                false, false, false, false, false, false, false, false, false, false]) }
-            drinksDetailsState={ drinksDetailsState }
-          />
-          <p data-testid="recipe-category">
-            {drinksDetailsState.strCategory}
-          </p>
-          <div data-testid="instructions">
-            {drinksDetailsState.strInstructions}
-          </div>
-          <button
-            style={ { position: 'fixed', bottom: '0px' } }
-            type="button"
-            data-testid="finish-recipe-btn"
-            disabled={ isDisabled }
-          >
-            Finalizar Receita
-          </button>
-        </div>
+        <RecipeInProgressDrink
+          handleOnChange={ handleOnChange }
+          handleClickShare={ () => handleClickShare('drinks', id) }
+          isChecked={ isChecked !== undefined
+            ? isChecked : setIsChecked([false, false, false, false, false,
+              false, false, false, false, false,
+              false, false, false, false, false, false, false, false, false, false]) }
+          drinksDetailsState={ drinksDetailsState }
+          handleFavorite={ handleFavorite }
+          isDisabled={ isDisabled }
+          favoriteHeart={ favoriteHeart }
+          id={ id }
+          handleClickFinishRecipe={ handleClickFinishRecipe }
+        />
       )}
       {isLinkCopied && <LinkCopied />}
     </section>
