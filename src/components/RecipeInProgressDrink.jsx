@@ -2,7 +2,7 @@ import '../index.css';
 
 function RecipeInProgressDrink(props) {
   return (
-    [props.drinksDetailsState].map((drink) => Object
+    Array(props.drinksDetailsState).map((drink) => Object
       .keys(drink).filter((item) => item.includes('strIngredient'))
       .map((key, index) => (
         (

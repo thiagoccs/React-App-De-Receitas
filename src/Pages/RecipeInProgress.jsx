@@ -55,11 +55,11 @@ function RecipeInProgress() {
       const item = [...food, {
         id,
         type: pathname.includes('meals') ? 'meal' : 'drink',
-        nationality: snack.strArea,
         category: snack.strCategory,
         alcoholicOrNot: pathname.includes('meals') ? '' : snack.strAlcoholic,
         name: pathname.includes('meals') ? snack.strMeal : snack.strDrink,
         image: pathname.includes('meals') ? snack.strMealThumb : snack.strDrinkThumb,
+        nationality: pathname.includes('meals') ? snack.strArea : '',
       }];
       localStorage
         .setItem('favoriteRecipes', JSON
@@ -76,7 +76,13 @@ function RecipeInProgress() {
     setFavoriteHeart((prevState) => !prevState);
     setStorage(snack);
   };
-
+  useEffect(() => {
+    const favoriteStorage = JSON.parse(localStorage
+      .getItem('favoriteRecipes'));
+    if (favoriteStorage !== null && favoriteStorage.some((item) => item.id === id)) {
+      setFavoriteHeart(true);
+    }
+  }, [id]);
   useEffect(() => {
     const getStorage = () => {
       if (localStorage.getItem('inProgressRecipes') !== null) {
@@ -98,6 +104,7 @@ function RecipeInProgress() {
         }
       }
     };
+
     getStorage();
   }, [id, pathname]);
 
@@ -126,8 +133,7 @@ function RecipeInProgress() {
     if (pathname.includes('drinks')) {
       fetchDrinksDetails();
     }
-  }, [id, isChecked, mealsDetailsState,
-    pathname, setDrinksDetailsState, setMealsDetailsState]);
+  }, [id, pathname, setDrinksDetailsState, setMealsDetailsState]);
 
   function handleClickShare(type, snackId) {
     setIsLinkCopied(true);
@@ -158,14 +164,19 @@ function RecipeInProgress() {
               {' '}
               <img
                 data-testid="favorite-btn"
-                src={ favoriteHeart ? blackHeartIcon : whiteHeartIcon }
+                src={
+                  favoriteHeart ? blackHeartIcon : whiteHeartIcon
+                }
                 alt="favorite"
               />
             </button>
           </div>
           <RecipeInProgressMeal
             handleOnChange={ handleOnChange }
-            isChecked={ isChecked }
+            isChecked={ isChecked !== undefined
+              ? isChecked : setIsChecked([false, false, false, false, false,
+                false, false, false, false, false,
+                false, false, false, false, false, false, false, false, false, false]) }
             mealsDetailsState={ mealsDetailsState }
           />
           <p data-testid="recipe-category">{mealsDetailsState.strCategory}</p>
@@ -207,7 +218,10 @@ function RecipeInProgress() {
           </div>
           <RecipeInProgressDrink
             handleOnChange={ handleOnChange }
-            isChecked={ isChecked }
+            isChecked={ isChecked !== undefined
+              ? isChecked : setIsChecked([false, false, false, false, false,
+                false, false, false, false, false,
+                false, false, false, false, false, false, false, false, false, false]) }
             drinksDetailsState={ drinksDetailsState }
           />
           <p data-testid="recipe-category">
