@@ -7,16 +7,12 @@ import RecommendedDrinks from '../components/RecomendedDrinks';
 import ShareAndFavoriteBtn from '../components/ShareAndFavoriteBtn';
 
 function RecipeDetails() {
-  const { mealsDetailsState,
-    setMealsDetailsState,
-    drinksDetailsState,
+  const { mealsDetailsState, setMealsDetailsState, drinksDetailsState,
     setDrinksDetailsState } = useContext(context);
-
   const { id } = useParams();
   const { location: { pathname } } = useHistory();
   const five = -5;
   const six = -6;
-
   useEffect(() => {
     const fetchMealsDetails = async () => {
       const mealsDetails = await fetchAPI(
@@ -24,7 +20,6 @@ function RecipeDetails() {
         'lookup.php?i',
         id,
       );
-
       setMealsDetailsState(mealsDetails);
     };
     const fetchDrinksDetails = async () => {
@@ -33,7 +28,6 @@ function RecipeDetails() {
         'lookup.php?i',
         id,
       );
-
       setDrinksDetailsState(drinksDetails);
     };
     if (pathname.includes('meals')) {
