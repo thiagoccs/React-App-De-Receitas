@@ -10,9 +10,7 @@ import setFavoriteRecipes from '../func/setFavoriteRecipes';
 
 function ShareAndFavoriteBtn() {
   const { mealsDetailsState,
-    setMealsDetailsState,
-    drinksDetailsState,
-    setDrinksDetailsState } = useContext(context);
+    drinksDetailsState } = useContext(context);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
   const [favoriteHeart, setFavoriteHeart] = useState(false);
   const { id } = useParams();
